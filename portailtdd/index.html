@@ -1,1 +1,1198 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portail TDD & Spring Boot</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <style>
+    :root {
+      --primary-color: #2c3e50;
+      --secondary-color: #3498db;
+      --accent-color: #e74c3c;
+      --light-bg: #f8f9fa;
+      --dark-bg: #343a40;
+      --tdd-red: #e74c3c;
+      --spring-green: #27ae60;
+      --test-blue: #3498db;
+    }
 
+    body {
+      background-color: var(--light-bg);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .navbar {
+      background-color: var(--primary-color);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .navbar-brand {
+      font-weight: 700;
+      color: white;
+    }
+
+    .hero-section {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--tdd-red) 100%);
+      color: white;
+      padding: 4rem 0;
+      margin-bottom: 3rem;
+      border-radius: 0 0 20px 20px;
+    }
+
+    .card {
+      border: none;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+      height: 100%;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    }
+
+    .card-header {
+      background-color: var(--primary-color);
+      color: white;
+      font-weight: 600;
+    }
+
+    .tdd-card .card-header {
+      background-color: var(--tdd-red);
+    }
+
+    .spring-card .card-header {
+      background-color: var(--spring-green);
+    }
+
+    .test-card .card-header {
+      background-color: var(--test-blue);
+    }
+
+    .module-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: var(--secondary-color);
+    }
+
+    .btn-tdd {
+      background-color: var(--tdd-red);
+      color: white;
+    }
+
+    .btn-tdd:hover {
+      background-color: #c0392b;
+      color: white;
+    }
+
+    .btn-spring {
+      background-color: var(--spring-green);
+      color: white;
+    }
+
+    .btn-spring:hover {
+      background-color: #219955;
+      color: white;
+    }
+
+    .btn-test {
+      background-color: var(--test-blue);
+      color: white;
+    }
+
+    .btn-test:hover {
+      background-color: #2980b9;
+      color: white;
+    }
+
+    .simulation-container {
+      background-color: white;
+      border-radius: 10px;
+      padding: 2rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+    }
+
+    .process-step {
+      position: relative;
+      padding-left: 30px;
+      margin-bottom: 20px;
+    }
+
+    .process-step:before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 20px;
+      height: 20px;
+      background-color: var(--tdd-red);
+      border-radius: 50%;
+    }
+
+    .process-step:after {
+      content: "";
+      position: absolute;
+      left: 9px;
+      top: 20px;
+      width: 2px;
+      height: 100%;
+      background-color: var(--tdd-red);
+    }
+
+    .process-step:last-child:after {
+      display: none;
+    }
+
+    .highlight-box {
+      background-color: rgba(231, 76, 60, 0.1);
+      border-left: 4px solid var(--tdd-red);
+      padding: 1rem;
+      margin: 1rem 0;
+      border-radius: 0 5px 5px 0;
+    }
+
+    .spring-highlight {
+      background-color: rgba(39, 174, 96, 0.1);
+      border-left: 4px solid var(--spring-green);
+    }
+
+    .test-highlight {
+      background-color: rgba(52, 152, 219, 0.1);
+      border-left: 4px solid var(--test-blue);
+    }
+
+    footer {
+      background-color: var(--dark-bg);
+      color: white;
+      padding: 2rem 0;
+      margin-top: 3rem;
+    }
+
+    /* Animation pour les cartes */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .module-card {
+      animation: fadeIn 0.5s ease forwards;
+      opacity: 0;
+    }
+
+    /* Délai d'animation pour chaque carte */
+    .module-card:nth-child(1) { animation-delay: 0.1s; }
+    .module-card:nth-child(2) { animation-delay: 0.2s; }
+    .module-card:nth-child(3) { animation-delay: 0.3s; }
+    .module-card:nth-child(4) { animation-delay: 0.4s; }
+    .module-card:nth-child(5) { animation-delay: 0.5s; }
+    .module-card:nth-child(6) { animation-delay: 0.6s; }
+    .module-card:nth-child(7) { animation-delay: 0.7s; }
+
+    /* Diagram styles */
+    .diagram-container {
+      background-color: white;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      height: 400px;
+      position: relative;
+      overflow: auto;
+    }
+
+    .diagram-placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: #666;
+      font-style: italic;
+    }
+
+    .diagram-element {
+      position: absolute;
+      border: 2px solid #333;
+      padding: 5px;
+      cursor: move;
+    }
+
+    .code-block {
+      background-color: #f8f9fa;
+      border-radius: 5px;
+      padding: 15px;
+      font-family: 'Courier New', Courier, monospace;
+      overflow-x: auto;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .hero-section {
+        padding: 2rem 0;
+      }
+
+      .module-icon {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark mb-4">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <i class="bi bi-code-square me-2"></i>Portail TDD & Spring Boot
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link active" href="#tdd">TDD</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#spring-boot">Spring Boot</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#tests">Tests</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#bonnes-pratiques">Bonnes pratiques</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#cas-pratiques">Cas pratiques</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#ressources">Ressources</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero-section">
+    <div class="container text-center">
+      <h1 class="display-4 fw-bold mb-3">Maîtrisez le TDD avec Spring Boot</h1>
+      <p class="lead mb-4">Apprenez les meilleures pratiques de développement piloté par les tests avec Java Spring Boot</p>
+      <div class="d-flex justify-content-center gap-3">
+        <a href="#tdd" class="btn btn-light btn-lg px-4">Commencer l'apprentissage</a>
+        <a href="#cas-pratiques" class="btn btn-outline-light btn-lg px-4">Voir les cas pratiques</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="container mb-5">
+    <section class="mb-5">
+      <div class="row">
+        <div class="col-lg-8 mx-auto text-center">
+          <h2 class="mb-4">Pourquoi adopter le TDD avec Spring Boot ?</h2>
+          <p class="lead">Le Test Driven Development (TDD) transforme votre façon de développer en garantissant un code plus robuste, mieux conçu et facile à maintenir.</p>
+          <div class="d-flex justify-content-center mt-4">
+            <div class="px-4 text-center">
+              <i class="bi bi-check-circle fs-1" style="color: var(--tdd-red);"></i>
+              <p class="mt-2 fw-bold">Qualité</p>
+            </div>
+            <div class="px-4 text-center">
+              <i class="bi bi-speedometer2 fs-1" style="color: var(--spring-green);"></i>
+              <p class="mt-2 fw-bold">Productivité</p>
+            </div>
+            <div class="px-4 text-center">
+              <i class="bi bi-shield-check fs-1" style="color: var(--test-blue);"></i>
+              <p class="mt-2 fw-bold">Fiabilité</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tdd" class="mb-5">
+      <h2 class="text-center mb-4">Test Driven Development (TDD)</h2>
+      
+      <div class="row mb-4">
+        <div class="col-md-6">
+          <div class="card h-100 tdd-card">
+            <div class="card-header d-flex align-items-center">
+              <i class="bi bi-journal-bookmark me-2"></i>
+              <h5 class="mb-0">Introduction au TDD</h5>
+            </div>
+            <div class="card-body">
+              <p>Le TDD est une méthodologie de développement qui inverse le processus traditionnel :</p>
+              <div class="highlight-box">
+                <p><strong>Cycle Red-Green-Refactor :</strong></p>
+                <ol>
+                  <li><strong>Red :</strong> Écrire un test qui échoue</li>
+                  <li><strong>Green :</strong> Implémenter le code minimal pour passer le test</li>
+                  <li><strong>Refactor :</strong> Améliorer le code sans changer son comportement</li>
+                </ol>
+              </div>
+              <button class="btn btn-tdd btn-sm mt-3" onclick="showDetails('tdd-intro')">
+                <i class="bi bi-info-circle me-1"></i>Avantages du TDD
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-6">
+          <div class="card h-100 tdd-card">
+            <div class="card-header d-flex align-items-center">
+              <i class="bi bi-code-square me-2"></i>
+              <h5 class="mb-0">Exemple de TDD</h5>
+            </div>
+            <div class="card-body">
+              <p>Implémentation d'une calculatrice simple avec TDD :</p>
+              <div class="code-block">
+                <pre>// 1. Test (RED)
+@Test
+void shouldReturn4WhenAdding2And2() {
+    Calculator calc = new Calculator();
+    assertEquals(4, calc.add(2, 2));
+}
+
+// 2. Implémentation minimale (GREEN)
+public class Calculator {
+    public int add(int a, int b) {
+        return a + b;
+    }
+}
+
+// 3. Refactor (amélioration possible)
+// Ajout de validation des entrées, logs, etc.</pre>
+              </div>
+              <button class="btn btn-tdd btn-sm mt-2" onclick="showDetails('tdd-example')">
+                <i class="bi bi-info-circle me-1"></i>Plus d'exemples
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-md-4">
+          <div class="card h-100 tdd-card">
+            <div class="card-header d-flex align-items-center">
+              <i class="bi bi-lightbulb me-2"></i>
+              <h5 class="mb-0">Avantages</h5>
+            </div>
+            <div class="card-body">
+              <ul>
+                <li>Couverture de test élevée</li>
+                <li>Design émergent</li>
+                <li>Documentation vivante</li>
+                <li>Réduction des bugs</li>
+                <li>Refactoring sécurisé</li>
+              </ul>
+              <button class="btn btn-tdd btn-sm mt-2" onclick="showDetails('tdd-benefits')">
+                <i class="bi bi-info-circle me-1"></i>En savoir plus
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-4">
+          <div class="card h-100 tdd-card">
+            <div class="card-header d-flex align-items-center">
+              <i class="bi bi-exclamation-triangle me-2"></i>
+              <h5 class="mb-0">Challenges</h5>
+            </div>
+            <div class="card-body">
+              <ul>
+                <li>Courbe d'apprentissage</li>
+                <li>Adaptation mentale</li>
+                <li>Temps initial plus long</li>
+                <li>Tests mal conçus</li>
+                <li>Sur-mock</li>
+              </ul>
+              <button class="btn btn-tdd btn-sm mt-2" onclick="showDetails('tdd-challenges')">
+                <i class="bi bi-info-circle me-1"></i>Solutions
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-4">
+          <div class="card h-100 tdd-card">
+            <div class="card-header d-flex align-items-center">
+              <i class="bi bi-puzzle me-2"></i>
+              <h5 class="mb-0">Bonnes pratiques</h5>
+            </div>
+            <div class="card-body">
+              <ul>
+                <li>Tests rapides</li>
+                <li>Tests isolés</li>
+                <li>Nommage clair</li>
+                <li>Éviter les détails d'implémentation</li>
+                <li>Refactor constant</li>
+              </ul>
+              <button class="btn btn-tdd btn-sm mt-2" onclick="showDetails('tdd-best-practices')">
+                <i class="bi bi-info-circle me-1"></i>Détails
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="spring-boot" class="mb-5">
+      <h2 class="text-center mb-4">Spring Boot & Tests</h2>
+      
+      <div class="row mb-4">
+        <div class="col-md-6">
+          <div class="card h-100 spring-card">
+            <div class="card-header d-flex align-items-center">
+              <i class="bi bi-journal-bookmark me-2"></i>
+              <h5 class="mb-0">Spring Boot Testing</h5>
+            </div>
+            <div class="card-body">
+              <p>Spring Boot offre un excellent support pour les tests avec :</p>
+              <div class="spring-highlight highlight-box">
+                <ul>
+                  <li><strong>@SpringBootTest :</strong> Test d'intégration complet</li>
+                  <li><strong>@WebMvcTest :</strong> Test des contrôleurs MVC</li>
+                  <li><strong>@DataJpaTest :</strong> Test des repositories JPA</li>
+                  <li><strong>@MockBean :</strong> Mock de composants Spring</li>
+                  <li><strong>TestRestTemplate :</strong> Test des API REST</li>
+                </ul>
+              </div>
+              <button class="btn btn-spring btn-sm mt-3" onclick="showDetails('spring-testing')">
+                <i class="bi bi-info-circle me-1"></i>Exemples concrets
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-6">
+          <div class="card h-100 spring-card">
+            <div class="card-header d-flex align-items-center">
+              <i class="bi bi-diagram-3 me-2"></i>
+              <h5 class="mb-0">Architecture testable</h5>
+            </div>
+            <div class="card-body">
+              <p>Concevez votre application Spring Boot pour être facilement testable :</p>
+              <ul>
+                <li>Couches séparées (Controller, Service, Repository)</li>
+                <li>Injection de dépendances</li>
+                <li>Interfaces pour les dépendances externes</li>
+                <li>Configuration externalisée</li>
+                <li>Profils Spring pour différents environnements</li>
+              </ul>
+              <div class="code-block mt-3">
+                <pre>@Service
+public class UserService {
+    private final UserRepository repo;
+    
+    @Autowired
+    public UserService(UserRepository repo) {
+        this.repo = repo;
+    }
+    
+    public User findById(Long id) {
+        return repo.findById(id).orElseThrow(...);
+    }
+}</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-md-4">
+          <div class="card h-100 spring-card">
+            <div class="card-header d-flex align-items-center">
+              <i class="bi bi-controller me-2"></i>
+              <h5 class="mb-0">Test des contrôleurs</h5>
+            </div>
+            <div class="card-body">
+              <p>Testez vos contrôleurs REST avec MockMvc :</p>
+              <div class="code-block">
+                <pre>@WebMvcTest(UserController.class)
+class UserControllerTest {
+    @Autowired MockMvc mvc;
+    @MockBean UserService service;
+    
+    @Test
+    void shouldReturnUser() throws Exception {
+        when(service.findById(1L))
+          .thenReturn(new User(1L, "test"));
+        
+        mvc.perform(get("/users/1"))
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("$.name").value("test"));
+    }
+}</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-4">
+          <div class="card h-100 spring-card">
+            <div class="card-header d-flex align-items-center">
+              <i class="bi bi-database me-2"></i>
+              <h5 class="mb-0">Test des repositories</h5>
+            </div>
+            <div class="card-body">
+              <p>Testez vos repositories JPA avec @DataJpaTest :</p>
+              <div class="code-block">
+                <pre>@DataJpaTest
+class UserRepositoryTest {
+    @Autowired TestEntityManager em;
+    @Autowired UserRepository repo;
+    
+    @Test
+    void shouldFindByEmail() {
+        em.persist(new User("test@example.com"));
+        
+        User found = repo.findByEmail("test@example.com");
+        assertNotNull(found);
+    }
+}</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-4">
+          <div class="card h-100 spring-card">
+            <div class="card-header d-flex align-items-center">
+              <i class="bi bi-shield-lock me-2"></i>
+              <h5 class="mb-0">Test de sécurité</h5>
+            </div>
+            <div class="card-body">
+              <p>Testez Spring Security avec @WithMockUser :</p>
+              <div class="code-block">
+                <pre>@Test
+@WithMockUser(roles="ADMIN")
+void shouldAllowAdminAccess() throws Exception {
+    mvc.perform(get("/admin"))
+      .andExpect(status().isOk());
+}
+
+@Test
+@WithMockUser(roles="USER")
+void shouldDenyUserAccessToAdmin() throws Exception {
+    mvc.perform(get("/admin"))
+      .andExpect(status().isForbidden());
+}</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tests" class="mb-5">
+      <h2 class="text-center mb-4">Types de tests</h2>
+      
+      <div class="row mb-4">
+        <div class="col-md-6">
+          <div class="card h-100 test-card">
+            <div class="card-header d-flex align-items-center">
+              <i class="bi bi-journal-bookmark me-2"></i>
+              <h5 class="mb-0">Tests unitaires</h5>
+            </div>
+            <div class="card-body">
+              <p>Les tests unitaires vérifient de petites unités de code en isolation :</p>
+              <div class="test-highlight highlight-box">
+                <p><strong>Outils :</strong></p>
+                <ul>
+                  <li>JUnit 5</li>
+                  <li>Mockito</li>
+                  <li>AssertJ</li>
+                  <li>Hamcrest</li>
+                </ul>
+              </div>
+              <div class="code-block mt-3">
+                <pre>@ExtendWith(MockitoExtension.class)
+class UserServiceTest {
+    @Mock UserRepository repo;
+    @InjectMocks UserService service;
+    
+    @Test
+    void shouldReturnUser() {
+        when(repo.findById(1L))
+          .thenReturn(Optional.of(new User(1L, "test")));
+        
+        User found = service.getUser(1L);
+        assertEquals("test", found.getName());
+    }
+}</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-6">
+          <div class="card h-100 test-card">
+            <div class="card-header d-flex align-items-center">
+              <i class="bi bi-arrow-repeat me-2"></i>
+              <h5 class="mb-0">Tests d'intégration</h5>
+            </div>
+            <div class="card-body">
+              <p>Les tests d'intégration vérifient le fonctionnement combiné de plusieurs composants :</p>
+              <div class="code-block">
+                <pre>@SpringBootTest
+@AutoConfigureMockMvc
+class UserIntegrationTest {
+    @Autowired MockMvc mvc;
+    @Autowired UserRepository repo;
+    
+    @Test
+    @Transactional
+    void shouldCreateAndRetrieveUser() throws Exception {
+        mvc.perform(post("/users")
+          .content("{\"name\":\"test\"}")
+          .contentType(APPLICATION_JSON))
+          .andExpect(status().isCreated());
+        
+        User saved = repo.findByName("test");
+        assertNotNull(saved);
+    }
+}</pre>
+              </div>
+              <button class="btn btn-test btn-sm mt-2" onclick="showDetails('integration-tests')">
+                <i class="bi bi-info-circle me-1"></i>TestContainers
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-md-4">
+          <div class="card h-100 test-card">
+            <div class="card-header d-flex align-items-center">
+              <i class="bi bi-file-earmark-text me-2"></i>
+              <h5 class="mb-0">Tests BDD</h5>
+            </div>
+            <div class="card-body">
+              <p>Behavior Driven Development avec Cucumber :</p>
+              <div class="code-block">
+                <pre>Feature: User management
+  Scenario: Create user
+    Given I am on the user creation page
+    When I enter "testuser" as name
+    And I submit the form
+    Then I should see "testuser" in the user list</pre>
+              </div>
+              <button class="btn btn-test btn-sm mt-2" onclick="showDetails('bdd-tests')">
+                <i class="bi bi-info-circle me-1"></i>Implémentation
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-4">
+          <div class="card h-100 test-card">
+            <div class="card-header d-flex align-items-center">
+              <i class="bi bi-browser-chrome me-2"></i>
+              <h5 class="mb-0">Tests UI</h5>
+            </div>
+            <div class="card-body">
+              <p>Tests d'interface utilisateur avec Selenium :</p>
+              <div class="code-block">
+                <pre>@Test
+void shouldAddUserViaUI() {
+    driver.get("http://localhost:8080/users/new");
+    driver.findElement(By.name("name"))
+      .sendKeys("testuser");
+    driver.findElement(By.tagName("button"))
+      .click();
+    
+    assertTrue(driver.getPageSource()
+      .contains("testuser"));
+}</pre>
+              </div>
+              <button class="btn btn-test btn-sm mt-2" onclick="showDetails('ui-tests')">
+                <i class="bi bi-info-circle me-1"></i>Page Object Model
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-4">
+          <div class="card h-100 test-card">
+            <div class="card-header d-flex align-items-center">
+              <i class="bi bi-speedometer2 me-2"></i>
+              <h5 class="mb-0">Tests de performance</h5>
+            </div>
+            <div class="card-body">
+              <p>Tests de charge et performance avec JMH :</p>
+              <div class="code-block">
+                <pre>@Benchmark
+@BenchmarkMode(Mode.AverageTime)
+@OutputTimeUnit(TimeUnit.MILLISECONDS)
+public void testUserCreation() {
+    userService.createUser(
+      new User("test_" + System.currentTimeMillis()));
+}</pre>
+              </div>
+              <button class="btn btn-test btn-sm mt-2" onclick="showDetails('performance-tests')">
+                <i class="bi bi-info-circle me-1"></i>Configuration
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="bonnes-pratiques" class="mb-5">
+      <h2 class="text-center mb-4">Top 10 Bonnes Pratiques</h2>
+      
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card mb-4">
+            <div class="card-header">
+              <h5 class="mb-0">Tests unitaires</h5>
+            </div>
+            <div class="card-body">
+              <ol>
+                <li>Testez un seul comportement par méthode</li>
+                <li>Nommez clairement les tests (should...When...)</li>
+                <li>Utilisez @Mock et @InjectMocks pour isoler les dépendances</li>
+                <li>Testez les cas standards, limites et exceptions</li>
+                <li>Évitez les tests trop abstraits ou trop mockés</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-6">
+          <div class="card mb-4">
+            <div class="card-header">
+              <h5 class="mb-0">Tests d'intégration</h5>
+            </div>
+            <div class="card-body">
+              <ol start="6">
+                <li>Utilisez @SpringBootTest avec un profil de test dédié</li>
+                <li>Préférez @DataJpaTest pour tester la couche repository</li>
+                <li>Utilisez TestContainers pour les bases de données</li>
+                <li>Protégez la base avec @Transactional pour rollback auto</li>
+                <li>Testez des scénarios réels (insertions, recherches, suppressions)</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0">Couverture de code</h5>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              <h6>Configuration JaCoCo</h6>
+              <div class="code-block">
+                <pre>&lt;plugin&gt;
+  &lt;groupId&gt;org.jacoco&lt;/groupId&gt;
+  &lt;artifactId&gt;jacoco-maven-plugin&lt;/artifactId&gt;
+  &lt;version&gt;0.8.11&lt;/version&gt;
+  &lt;executions&gt;
+    &lt;execution&gt;
+      &lt;goals&gt;&lt;goal&gt;prepare-agent&lt;/goal&gt;&lt;/goals&gt;
+    &lt;/execution&gt;
+    &lt;execution&gt;
+      &lt;id&gt;report&lt;/id&gt;
+      &lt;phase&gt;verify&lt;/phase&gt;
+      &lt;goals&gt;&lt;goal&gt;report&lt;/goal&gt;&lt;/goals&gt;
+    &lt;/execution&gt;
+  &lt;/executions&gt;
+&lt;/plugin&gt;</pre>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <h6>Objectifs</h6>
+              <ul>
+                <li>Visez ≥ 90% de couverture des instructions</li>
+                <li>Couverture ≥ 80% des branches</li>
+                <li>Excluez les DTO, configurations et POJO simples</li>
+                <li>Intégrez dans votre pipeline CI/CD</li>
+                <li>100% ne garantit pas zéro bug - qualité avant quantité</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="cas-pratiques" class="mb-5">
+      <h2 class="text-center mb-4">Cas pratiques</h2>
+      
+      <div class="row row-cols-1 row-cols-md-2 g-4">
+        <div class="col">
+          <div class="card h-100 tdd-card">
+            <div class="card-header d-flex align-items-center">
+              <i class="bi bi-book me-2"></i>
+              <h5 class="mb-0">Gestion des étudiants</h5>
+            </div>
+            <div class="card-body">
+              <p>Implémentation TDD complète d'un système de gestion d'étudiants.</p>
+              <p><strong>Fonctionnalités :</strong> CRUD, validation, recherche, pagination.</p>
+              <button class="btn btn-tdd btn-sm mt-2" onclick="showCaseStudy('gestion-etudiants')">
+                <i class="bi bi-journal-text me-1"></i>Voir la solution
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col">
+          <div class="card h-100 spring-card">
+            <div class="card-header d-flex align-items-center">
+              <i class="bi bi-cart me-2"></i>
+              <h5 class="mb-0">API e-commerce</h5>
+            </div>
+            <div class="card-body">
+              <p>Développement piloté par les tests d'une API REST pour un site e-commerce.</p>
+              <p><strong>Technologies :</strong> Spring Boot, JPA, Security, OpenAPI.</p>
+              <button class="btn btn-spring btn-sm mt-2" onclick="showCaseStudy('api-ecommerce')">
+                <i class="bi bi-journal-text me-1"></i>Voir la solution
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col">
+          <div class="card h-100 test-card">
+            <div class="card-header d-flex align-items-center">
+              <i class="bi bi-shield-lock me-2"></i>
+              <h5 class="mb-0">Système d'authentification</h5>
+            </div>
+            <div class="card-body">
+              <p>Implémentation sécurisée avec tests complets (unitaires, intégration, sécurité).</p>
+              <p><strong>Fonctionnalités :</strong> JWT, OAuth2, RBAC, validation.</p>
+              <button class="btn btn-test btn-sm mt-2" onclick="showCaseStudy('auth-system')">
+                <i class="bi bi-journal-text me-1"></i>Voir la solution
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col">
+          <div class="card h-100">
+            <div class="card-header d-flex align-items-center">
+              <i class="bi bi-graph-up me-2"></i>
+              <h5 class="mb-0">Microservices</h5>
+            </div>
+            <div class="card-body">
+              <p>Architecture microservices avec tests contractuels et tests E2E.</p>
+              <p><strong>Technologies :</strong> Spring Cloud, Contract, Kubernetes.</p>
+              <button class="btn btn-primary btn-sm mt-2" onclick="showCaseStudy('microservices')">
+                <i class="bi bi-journal-text me-1"></i>Voir la solution
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="ressources" class="mb-5">
+      <h2 class="text-center mb-4">Ressources supplémentaires</h2>
+      
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card mb-4">
+            <div class="card-header">
+              <h5 class="mb-0">Livres recommandés</h5>
+            </div>
+            <div class="card-body">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">"Test Driven Development: By Example" - Kent Beck</li>
+                <li class="list-group-item">"Growing Object-Oriented Software, Guided by Tests" - Freeman & Pryce</li>
+                <li class="list-group-item">"Effective Java" - Joshua Bloch</li>
+                <li class="list-group-item">"Spring in Action" - Craig Walls</li>
+                <li class="list-group-item">"Clean Code" - Robert C. Martin</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-6">
+          <div class="card mb-4">
+            <div class="card-header">
+              <h5 class="mb-0">Outils et frameworks</h5>
+            </div>
+            <div class="card-body">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">JUnit 5</li>
+                <li class="list-group-item">Mockito</li>
+                <li class="list-group-item">TestContainers</li>
+                <li class="list-group-item">Cucumber</li>
+                <li class="list-group-item">Selenium</li>
+                <li class="list-group-item">JaCoCo</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0">Formations et certifications</h5>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              <h6>En ligne</h6>
+              <ul>
+                <li>Cours TDD sur Udemy/Coursera</li>
+                <li>Spring Boot Testing Guides</li>
+                <li>Documentation JUnit 5</li>
+                <li>Tutoriels Mockito</li>
+              </ul>
+            </div>
+            <div class="col-md-6">
+              <h6>Certifications</h6>
+              <ul>
+                <li>Spring Professional Certification</li>
+                <li>Java Certification</li>
+                <li>ISTQB (Testing)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <div class="container text-center">
+      <p class="mb-0">Portail TDD & Spring Boot - Bonnes pratiques de développement</p>
+      <p class="mb-0">© 2023 - Tous droits réservés</p>
+    </div>
+  </footer>
+
+  <!-- Modal for details -->
+  <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="detailsModalLabel">Détails</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="detailsModalContent">
+          Chargement...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // DOM elements
+    const detailsModal = new bootstrap.Modal(document.getElementById('detailsModal'));
+    const detailsModalTitle = document.getElementById('detailsModalLabel');
+    const detailsModalContent = document.getElementById('detailsModalContent');
+
+    function showDetails(type) {
+      let title = '';
+      let content = '';
+
+      switch(type) {
+        case 'tdd-intro':
+          title = 'Introduction au TDD';
+          content = `
+            <h5>Le cycle Red-Green-Refactor</h5>
+            <p>Le TDD suit un cycle strict en trois phases :</p>
+            <ol>
+              <li><strong>Red :</strong> Écrire un test qui échoue (le comportement n'existe pas encore)</li>
+              <li><strong>Green :</strong> Implémenter le code minimal pour faire passer le test</li>
+              <li><strong>Refactor :</strong> Améliorer la qualité du code sans changer son comportement</li>
+            </ol>
+            
+            <h5 class="mt-4">Avantages clés</h5>
+            <ul>
+              <li><strong>Design émergent :</strong> Le code évolue naturellement vers une bonne architecture</li>
+              <li><strong>Documentation vivante :</strong> Les tests servent d'exemples d'utilisation</li>
+              <li><strong>Confiance :</strong> Possibilité de refactorer en toute sécurité</li>
+              <li><strong>Couverture :</strong> Tous les comportements sont testés par définition</li>
+            </ul>
+            
+            <div class="alert alert-info mt-4">
+              <p><strong>Astuce :</strong> Commencez par des petits projets pour vous familiariser avec le cycle TDD avant de l'appliquer à des projets complexes.</p>
+            </div>
+          `;
+          break;
+
+        case 'tdd-example':
+          title = 'Exemple complet de TDD';
+          content = `
+            <h5>Développement d'une calculatrice</h5>
+            <p>Voici un exemple complet de développement avec TDD :</p>
+            
+            <h6 class="mt-3">Étape 1 : Test d'addition (RED)</h6>
+            <div class="code-block">
+              <pre>@Test
+void shouldReturn4WhenAdding2And2() {
+    Calculator calc = new Calculator();
+    assertEquals(4, calc.add(2, 2));
+}</pre>
+            </div>
+            <p>Ce test échoue car la classe Calculator n'existe pas encore.</p>
+            
+            <h6 class="mt-3">Étape 2 : Implémentation minimale (GREEN)</h6>
+            <div class="code-block">
+              <pre>public class Calculator {
+    public int add(int a, int b) {
+        return a + b;
+    }
+}</pre>
+            </div>
+            <p>Le test passe maintenant.</p>
+            
+            <h6 class="mt-3">Étape 3 : Refactor</h6>
+            <p>On pourrait améliorer la classe Calculator :</p>
+            <ul>
+              <li>Ajouter la validation des entrées</li>
+              <li>Ajouter des logs</li>
+              <li>Gérer les overflow</li>
+            </ul>
+            
+            <h5 class="mt-4">Autres exemples</h5>
+            <p>Le même principe s'applique à :</p>
+            <ul>
+              <li>Validation de données</li>
+              <li>Calculs métiers</li>
+              <li>Transformations de données</li>
+              <li>Algorithmes</li>
+            </ul>
+          `;
+          break;
+
+        case 'spring-testing':
+          title = 'Testing avec Spring Boot';
+          content = `
+            <h5>Annotations principales</h5>
+            <table class="table table-sm">
+              <thead>
+                <tr><th>Annotation</th><th>Description</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>@SpringBootTest</code></td>
+                  <td>Charge le contexte Spring complet pour les tests d'intégration</td>
+                </tr>
+                <tr>
+                  <td><code>@WebMvcTest</code></td>
+                  <td>Test des contrôleurs MVC (sans charger tout le contexte)</td>
+                </tr>
+                <tr>
+                  <td><code>@DataJpaTest</code></td>
+                  <td>Test des repositories JPA avec une base configurée</td>
+                </tr>
+                <tr>
+                  <td><code>@MockBean</code></td>
+                  <td>Crée un mock Spring pour remplacer un bean</td>
+                </tr>
+                <tr>
+                  <td><code>@TestPropertySource</code></td>
+                  <td>Définit des propriétés spécifiques pour le test</td>
+                </tr>
+              </tbody>
+            </table>
+            
+            <h5 class="mt-4">Exemple complet</h5>
+            <div class="code-block">
+              <pre>@SpringBootTest
+@AutoConfigureMockMvc
+class UserControllerIntegrationTest {
+    @Autowired MockMvc mvc;
+    @Autowired UserRepository repo;
+    
+    @BeforeEach
+    void setup() {
+        repo.deleteAll();
+        repo.save(new User("test@example.com"));
+    }
+    
+    @Test
+    void shouldGetUser() throws Exception {
+        mvc.perform(get("/users/test@example.com"))
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("$.email").value("test@example.com"));
+    }
+}</pre>
+            </div>
+          `;
+          break;
+
+        default:
+          title = 'Détails non disponibles';
+          content = `
+            <div class="alert alert-warning">
+              <p>Les détails pour cette section ne sont pas encore disponibles.</p>
+              <p class="mb-0">Cette fonctionnalité est en cours de développement.</p>
+            </div>
+          `;
+      }
+
+      detailsModalTitle.textContent = title;
+      detailsModalContent.innerHTML = content;
+      detailsModal.show();
+    }
+
+    function showCaseStudy(caseId) {
+      let title = '';
+      let content = '';
+
+      switch(caseId) {
+        case 'gestion-etudiants':
+          title = 'Gestion des étudiants avec TDD';
+          content = `
+            <h5>Contexte</h5>
+            <p>Développement d'un système de gestion d'étudiants en suivant strictement le TDD.</p>
+            
+            <h5 class="mt-4">Fonctionnalités implémentées</h5>
+            <ul>
+              <li>Création d'étudiant avec validation</li>
+              <li>Recherche par nom/prénom</li>
+              <li>Pagination des résultats</li>
+              <li>Statistiques (moyenne d'âge, etc.)</li>
+            </ul>
+            
+            <h5 class="mt-4">Processus TDD</h5>
+            <ol>
+              <li>Écriture du test pour la création d'étudiant</li>
+              <li>Implémentation minimale du service</li>
+              <li>Refactor pour ajouter la validation</li>
+              <li>Écriture du test pour la recherche</li>
+              <li>Implémentation du repository</li>
+              <li>Etc.</li>
+            </ol>
+            
+            <h5 class="mt-4">Technologies</h5>
+            <ul>
+              <li>Spring Boot</li>
+              <li>JPA/Hibernate</li>
+              <li>JUnit 5</li>
+              <li>Mockito</li>
+              <li>TestContainers</li>
+            </ul>
+          `;
+          break;
+
+        default:
+          title = 'Cas pratique non trouvé';
+          content = `
+            <div class="alert alert-warning">
+              <p>Le cas pratique demandé n'est pas encore disponible.</p>
+              <p class="mb-0">Nous ajoutons régulièrement de nouveaux cas pratiques.</p>
+            </div>
+          `;
+      }
+
+      detailsModalTitle.textContent = title;
+      detailsModalContent.innerHTML = content;
+      detailsModal.show();
+    }
+  </script>
+</body>
+</html>
