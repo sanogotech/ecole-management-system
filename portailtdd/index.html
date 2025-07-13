@@ -297,6 +297,94 @@
     border-radius: 0.3rem;
     background-color: #f5f5f5;
   }
+  
+  .testing-quality-explanation {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  max-width: 900px;
+  margin: 2rem auto;
+}
+
+.myth-reality {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+@media (max-width: 768px) {
+  .myth-reality {
+    grid-template-columns: 1fr;
+  }
+}
+
+.myth, .reality {
+  padding: 1.5rem;
+  border-radius: 8px;
+}
+
+.myth {
+  background-color: #fff8f8;
+  border-left: 4px solid #ff6b6b;
+}
+
+.reality {
+  background-color: #f8fff8;
+  border-left: 4px solid #51cf66;
+}
+
+.coverage-limitations .list-group-item {
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  border-left: 3px solid #fcc419;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.metric-card {
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.metric-header {
+  background-color: #2c3e50;
+  color: white;
+  padding: 0.75rem;
+  font-weight: 600;
+}
+
+.metric-body {
+  padding: 1rem;
+  background-color: white;
+}
+
+.metric-body code {
+  display: block;
+  background: #f8f9fa;
+  padding: 0.75rem;
+  margin-top: 0.5rem;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+.example {
+  margin-top: 0.5rem;
+  font-family: monospace;
+  background: #f1f3f5;
+  padding: 0.5rem;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+.badge {
+  margin: 0.3rem 0;
+}
   </style>
 </head>
 <body>
@@ -1714,6 +1802,453 @@ public void testUserCreation() {
               <li>Intégrer avec SonarQube pour plus d'analyses</li>
             </ul>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="jacoco" class="mb-5">
+  <h2 class="text-center mb-4">JaCoCo - Couverture de Code Java</h2>
+  
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <div class="card h-100">
+        <div class="card-header bg-primary text-white">
+          <i class="bi bi-graph-up me-2"></i>Introduction à JaCoCo
+        </div>
+        <div class="card-body">
+          <p><strong>JaCoCo (Java Code Coverage)</strong> est un outil open-source qui mesure la couverture de code des tests unitaires en Java.</p>
+          
+          <h5 class="mt-3">Principales fonctionnalités :</h5>
+          <ul>
+            <li>Mesure la couverture par instructions (instructions Java bytecode)</li>
+            <li>Mesure la couverture par branches (if/else, switch)</li>
+            <li>Mesure la couverture par lignes de code</li>
+            <li>Mesure la couverture par méthodes et classes</li>
+            <li>Intégration avec Maven, Gradle, Ant et IDE</li>
+            <li>Génération de rapports HTML, XML, CSV</li>
+          </ul>
+          
+          <div class="alert alert-info mt-3">
+            <i class="bi bi-lightbulb"></i> JaCoCo fonctionne en instrumentant le bytecode Java, soit à la volée (agent Java), soit hors ligne.
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-6">
+      <div class="card h-100">
+        <div class="card-header bg-primary text-white">
+          <i class="bi bi-gear me-2"></i>Configuration Maven
+        </div>
+        <div class="card-body">
+          <p>Configuration de base dans <code>pom.xml</code> :</p>
+          <pre><code class="language-xml">&lt;plugin&gt;
+  &lt;groupId&gt;org.jacoco&lt;/groupId&gt;
+  &lt;artifactId&gt;jacoco-maven-plugin&lt;/artifactId&gt;
+  &lt;version&gt;0.8.8&lt;/version&gt;
+  &lt;executions&gt;
+    &lt;execution&gt;
+      &lt;goals&gt;
+        &lt;goal&gt;prepare-agent&lt;/goal&gt;
+      &lt;/goals&gt;
+    &lt;/execution&gt;
+    &lt;execution&gt;
+      &lt;id&gt;report&lt;/id&gt;
+      &lt;phase&gt;test&lt;/phase&gt;
+      &lt;goals&gt;
+        &lt;goal&gt;report&lt;/goal&gt;
+      &lt;/goals&gt;
+    &lt;/execution&gt;
+  &lt;/executions&gt;
+&lt;/plugin&gt;</code></pre>
+
+          <h5 class="mt-3">Seuils de couverture :</h5>
+          <pre><code class="language-xml">&lt;execution&gt;
+  &lt;id&gt;check-coverage&lt;/id&gt;
+  &lt;goals&gt;
+    &lt;goal&gt;check&lt;/goal&gt;
+  &lt;/goals&gt;
+  &lt;configuration&gt;
+    &lt;rules&gt;
+      &lt;rule&gt;
+        &lt;element&gt;CLASS&lt;/element&gt;
+        &lt;limits&gt;
+          &lt;limit&gt;
+            &lt;counter&gt;LINE&lt;/counter&gt;
+            &lt;value&gt;COVEREDRATIO&lt;/value&gt;
+            &lt;minimum&gt;0.80&lt;/minimum&gt;
+          &lt;/limit&gt;
+        &lt;/limits&gt;
+      &lt;/rule&gt;
+    &lt;/rules&gt;
+  &lt;/configuration&gt;
+&lt;/execution&gt;</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="row mb-4">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header bg-success text-white">
+          <i class="bi bi-file-earmark-bar-graph me-2"></i>Interprétation du Rapport JaCoCo
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              <h5>Métriques principales :</h5>
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>Métrique</th>
+                    <th>Description</th>
+                    <th>Objectif</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Instructions</td>
+                    <td>Bytecode Java exécuté</td>
+                    <td>> 85%</td>
+                  </tr>
+                  <tr>
+                    <td>Branches</td>
+                    <td>Couverture des chemins (if/else)</td>
+                    <td>> 70%</td>
+                  </tr>
+                  <tr>
+                    <td>Complexité cyclomatique</td>
+                    <td>Nombre de chemins possibles</td>
+                    <td>Par méthode: < 10</td>
+                  </tr>
+                  <tr>
+                    <td>Lignes</td>
+                    <td>Lignes de code exécutées</td>
+                    <td>> 80%</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col-md-6">
+              <h5>Exemple de rapport :</h5>
+              <img src="images/jacoco-report.png" alt="Rapport JaCoCo" class="img-fluid border">
+              <p class="mt-2">Les couleurs indiquent :
+                <span class="text-success">■ Couvert</span>, 
+                <span class="text-danger">■ Non couvert</span>, 
+                <span class="text-warning">■ Partiellement couvert</span>
+              </p>
+            </div>
+          </div>
+          
+          <div class="alert alert-warning mt-3">
+            <i class="bi bi-exclamation-triangle"></i> Attention à ne pas confondre couverture de code et qualité des tests. 
+            100% de couverture ne garantit pas des tests efficaces !
+          </div>
+		  
+		  <div class="testing-quality-explanation">
+  <h3 class="alert alert-warning">Attention : Couverture de Code ≠ Qualité des Tests</h3>
+  
+  <div class="myth-reality">
+    <div class="myth">
+      <h4><i class="bi bi-x-circle-fill text-danger"></i> Mythe courant</h4>
+      <p>"Atteindre 100% de couverture de code signifie que mon application est parfaitement testée."</p>
+    </div>
+    
+    <div class="reality">
+      <h4><i class="bi bi-check-circle-fill text-success"></i> Réalité</h4>
+      <p>La couverture mesure seulement quelles lignes sont exécutées, pas la pertinence des assertions ni les cas limites couverts.</p>
+    </div>
+  </div>
+
+  <div class="coverage-limitations">
+    <h5>Limites de la couverture de code :</h5>
+    <ul class="list-group">
+      <li class="list-group-item">
+        <strong>Faux positifs :</strong> Exécuter du code ≠ tester son comportement
+        <div class="example">
+          <code>// Test passant mais inutile<br>expect(true).toBe(true);</code>
+        </div>
+      </li>
+      <li class="list-group-item">
+        <strong>Cas limites ignorés :</strong> 100% de couverture peut manquer :
+        <ul>
+          <li>Entrées invalides</li>
+          <li>Conditions aux limites</li>
+          <li>États d'erreur</li>
+        </ul>
+      </li>
+      <li class="list-group-item">
+        <strong>Complexité non mesurée :</strong> Ne détecte pas :
+        <ul>
+          <li>Tests redondants</li>
+          <li>Assertions trop larges</li>
+          <li>Dépendances non mockées</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <div class="quality-metrics mt-4">
+    <h5>Indicateurs de qualité des tests (bien plus importants) :</h5>
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-header">Pertinence des assertions</div>
+        <div class="metric-body">
+          Vérifient-elles le <strong>comportement</strong> attendu, pas juste l'exécution ?
+          <div class="badge bg-primary">Exemple :</div>
+          <code>expect(validateEmail('test@test.com')).toBe(true); // Bon<br>
+          expect(validateEmail).toHaveBeenCalled(); // Peu utile seul</code>
+        </div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-header">Cas limites couverts</div>
+        <div class="metric-body">
+          <ul>
+            <li>Entrées vides/nulles</li>
+            <li>Valeurs extrêmes</li>
+            <li>Formats invalides</li>
+          </ul>
+          <div class="badge bg-primary">Exemple email :</div>
+          <code>test@, @test.com, test@test.</code>
+        </div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-header">Maintenabilité</div>
+        <div class="metric-body">
+          <ul>
+            <li>Nommage clair des tests</li>
+            <li>Pas de duplication</li>
+            <li>Indépendance des tests</li>
+          </ul>
+          <div class="badge bg-primary">Anti-pattern :</div>
+          <code>test('Test 1', () => { ... }); // Trop vague</code>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="best-practices mt-4 p-3 bg-light">
+    <h5><i class="bi bi-lightbulb"></i> Bonnes pratiques :</h5>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>À faire</th>
+          <th>À éviter</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Tester les comportements métier</td>
+          <td>Tester l'implémentation interne</td>
+        </tr>
+        <tr>
+          <td>Utiliser des données réalistes</td>
+          <td>Données trop simples ("aaa", 123)</td>
+        </tr>
+        <tr>
+          <td>1 assertion par cas de test</td>
+          <td>Tests fourre-tout</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="conclusion alert alert-info mt-3">
+    <strong>Règle d'or :</strong> Viser une couverture raisonnable (70-80%) avec des tests <strong>pertinents</strong> plutôt que 100% de couverture avec des tests <strong>superficiels</strong>.
+  </div>
+</div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card h-100">
+        <div class="card-header bg-info text-white">
+          <i class="bi bi-best-fill me-2"></i>Bonnes Pratiques
+        </div>
+        <div class="card-body">
+          <ul>
+            <li><strong>Seuils réalistes :</strong> 80% lignes, 70% branches est un bon départ</li>
+            <li><strong>Exclure le code généré :</strong> DTOs, Constructeurs, Getters/Setters</li>
+            <li><strong>Focus sur les parties critiques :</strong> Logique métier > couche web</li>
+            <li><strong>Intégration CI :</strong> Bloquer le build si couverture insuffisante</li>
+            <li><strong>Revues de code :</strong> Analyser les parties non couvertes</li>
+          </ul>
+          
+          <h5 class="mt-3">Exclusion de classes :</h5>
+          <pre><code class="language-xml">&lt;configuration&gt;
+  &lt;excludes&gt;
+    &lt;exclude&gt;**/model/*.class&lt;/exclude&gt;
+    &lt;exclude&gt;**/config/*.class&lt;/exclude&gt;
+    &lt;exclude&gt;**/Application.class&lt;/exclude&gt;
+  &lt;/excludes&gt;
+&lt;/configuration&gt;</code></pre>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-6">
+      <div class="card h-100">
+        <div class="card-header bg-info text-white">
+          <i class="bi bi-tools me-2"></i>Astuces Avancées
+        </div>
+        <div class="card-body">
+          <h5>Merge des rapports (multi-modules) :</h5>
+          <pre><code class="language-xml">&lt;execution&gt;
+  &lt;id&gt;merge-results&lt;/id&gt;
+  &lt;phase&gt;verify&lt;/phase&gt;
+  &lt;goals&gt;
+    &lt;goal&gt;merge&lt;/goal&gt;
+  &lt;/goals&gt;
+  &lt;configuration&gt;
+    &lt;fileSets&gt;
+      &lt;fileSet&gt;
+        &lt;directory&gt;${project.basedir}&lt;/directory&gt;
+        &lt;includes&gt;
+          &lt;include&gt;**/target/jacoco.exec&lt;/include&gt;
+        &lt;/includes&gt;
+      &lt;/fileSet&gt;
+    &lt;/fileSets&gt;
+    &lt;destFile&gt;${project.basedir}/target/jacoco.exec&lt;/destFile&gt;
+  &lt;/configuration&gt;
+&lt;/execution&gt;</code></pre>
+          
+          <h5 class="mt-3">Couverture minimum par package :</h5>
+          <pre><code class="language-xml">&lt;rules&gt;
+  &lt;rule&gt;
+    &lt;element&gt;PACKAGE&lt;/element&gt;
+    &lt;limits&gt;
+      &lt;limit&gt;
+        &lt;counter&gt;LINE&lt;/counter&gt;
+        &lt;value&gt;COVEREDRATIO&lt;/value&gt;
+        &lt;minimum&gt;0.75&lt;/minimum&gt;
+      &lt;/limit&gt;
+    &lt;/limits&gt;
+    &lt;includes&gt;
+      &lt;include&gt;com.monapp.metier.*&lt;/include&gt;
+    &lt;/includes&gt;
+  &lt;/rule&gt;
+&lt;/rules&gt;</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="card mt-4">
+    <div class="card-header bg-danger text-white">
+      <i class="bi bi-exclamation-octagon me-2"></i>Pièges à Éviter
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6">
+          <h5>1. Couverture artificielle</h5>
+          <p>Éviter les tests qui appellent le code sans vérifications :</p>
+          <pre><code class="language-java">// ❌ Mauvais - Appel sans assertion
+@Test
+void testProcess() {
+    processor.process(); // Juste pour couvrir
+}
+
+// ✅ Bon - Vérification du comportement
+@Test
+void testProcess() {
+    Result result = processor.process();
+    assertThat(result.isValid()).isTrue();
+    assertThat(result.getItems()).hasSize(3);
+}</code></pre>
+        </div>
+        <div class="col-md-6">
+          <h5>2. Ignorer les branches</h5>
+          <p>Tester tous les chemins conditionnels :</p>
+          <pre><code class="language-java">public String getStatus(int value) {
+    if (value > 100) { // Branche souvent oubliée
+        return "HIGH";
+    }
+    return "NORMAL";
+}
+
+@Test
+void shouldReturnHighWhenOver100() {
+    assertThat(service.getStatus(101)).isEqualTo("HIGH");
+}</code></pre>
+        </div>
+      </div>
+      
+      <div class="row mt-3">
+        <div class="col-md-6">
+          <h5>3. Tests dépendants de l'implémentation</h5>
+          <pre><code class="language-java">// ❌ Test fragile
+@Test
+void testInternalLogic() {
+    verify(internalHelper).process(any());
+    
+    // Le test échouera si l'implémentation change
+    // même si le comportement externe est identique
+}</code></pre>
+        </div>
+        <div class="col-md-6">
+          <h5>4. Oublier les cas d'erreur</h5>
+          <pre><code class="language-java">@Test
+void shouldThrowExceptionWhenInvalidInput() {
+    assertThrows(InvalidInputException.class, () -> {
+        service.process(null);
+    });
+}</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="card mt-4">
+    <div class="card-header bg-dark text-white">
+      <i class="bi bi-git me-2"></i>Intégration avec CI/CD
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6">
+          <h5>GitHub Actions</h5>
+          <pre><code class="language-yaml">- name: Test with Maven and JaCoCo
+  run: mvn test jacoco:report
+
+- name: Upload coverage to Codecov
+  uses: codecov/codecov-action@v2
+  with:
+    files: ./target/site/jacoco/jacoco.xml</code></pre>
+        </div>
+        <div class="col-md-6">
+          <h5>Jenkins Pipeline</h5>
+          <pre><code class="language-groovy">stage('Test and Coverage') {
+    steps {
+        sh 'mvn clean test jacoco:report'
+        jacoco(
+            execPattern: 'target/jacoco.exec',
+            classPattern: 'target/classes',
+            sourcePattern: 'src/main/java'
+        )
+    }
+    post {
+        always {
+            publishHTML(
+                target: [
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: false,
+                    keepAll: true,
+                    reportDir: 'target/site/jacoco',
+                    reportFiles: 'index.html',
+                    reportName: 'JaCoCo Report'
+                ]
+            )
+        }
+    }
+}</code></pre>
         </div>
       </div>
     </div>
