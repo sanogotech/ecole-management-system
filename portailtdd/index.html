@@ -986,7 +986,7 @@ public void testUserCreation() {
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
+<script>
     // DOM elements
     const detailsModal = new bootstrap.Modal(document.getElementById('detailsModal'));
     const detailsModalTitle = document.getElementById('detailsModalLabel');
@@ -1067,6 +1067,99 @@ void shouldReturn4WhenAdding2And2() {
           `;
           break;
 
+        case 'tdd-benefits':
+          title = 'Avantages du TDD';
+          content = `
+            <h5>Pourquoi adopter le TDD ?</h5>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="card mb-3">
+                  <div class="card-header bg-tdd text-white">
+                    <h6>Qualité du code</h6>
+                  </div>
+                  <div class="card-body">
+                    <ul>
+                      <li>Moins de bugs en production</li>
+                      <li>Couverture de test élevée</li>
+                      <li>Design plus modulaire</li>
+                      <li>Meilleure maintenabilité</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="card mb-3">
+                  <div class="card-header bg-tdd text-white">
+                    <h6>Productivité</h6>
+                  </div>
+                  <div class="card-body">
+                    <ul>
+                      <li>Moins de temps passé à déboguer</li>
+                      <li>Refactoring sécurisé</li>
+                      <li>Documentation implicite</li>
+                      <li>Confiance dans les modifications</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <h5 class="mt-4">Études de cas</h5>
+            <p>Plusieurs études ont montré que le TDD :</p>
+            <ul>
+              <li>Réduit les bugs de 40-90%</li>
+              <li>Augmente le temps de développement initial de 15-35%</li>
+              <li>Réduit le temps total du projet grâce à moins de corrections</li>
+              <li>Améliore la satisfaction des développeurs</li>
+            </ul>
+          `;
+          break;
+
+        case 'tdd-challenges':
+          title = 'Défis du TDD et solutions';
+          content = `
+            <h5>Défis courants avec le TDD</h5>
+            <table class="table table-sm">
+              <thead>
+                <tr><th>Défi</th><th>Solution</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Courbe d'apprentissage</td>
+                  <td>Commencez petit, formez-vous, pratiquez régulièrement</td>
+                </tr>
+                <tr>
+                  <td>Tests trop lents</td>
+                  <td>Isolez les tests lents, utilisez des mocks judicieusement</td>
+                </tr>
+                <tr>
+                  <td>Tests fragiles</td>
+                  <td>Évitez de tester les détails d'implémentation, testez le comportement</td>
+                </tr>
+                <tr>
+                  <td>Temps initial plus long</td>
+                  <td>Investissement qui paie à moyen/long terme</td>
+                </tr>
+                <tr>
+                  <td>Difficulté à tester le legacy</td>
+                  <td>Commencez par ajouter des tests autour du code existant</td>
+                </tr>
+              </tbody>
+            </table>
+            
+            <h5 class="mt-4">Conseils pour réussir</h5>
+            <div class="alert alert-info">
+              <ul>
+                <li>Commencez par des petits projets pour prendre l'habitude</li>
+                <li>Pratiquez le "TDD ping-pong" en binôme</li>
+                <li>Ne sautez pas l'étape de refactoring</li>
+                <li>Écrivez des tests lisibles et bien nommés</li>
+                <li>Intégrez le TDD dans votre workflow CI/CD</li>
+              </ul>
+            </div>
+          `;
+          break;
+
         case 'spring-testing':
           title = 'Testing avec Spring Boot';
           content = `
@@ -1124,12 +1217,211 @@ class UserControllerIntegrationTest {
           `;
           break;
 
-        default:
-          title = 'Détails non disponibles';
+        case 'integration-tests':
+          title = 'Tests d\'intégration avec TestContainers';
           content = `
-            <div class="alert alert-warning">
-              <p>Les détails pour cette section ne sont pas encore disponibles.</p>
-              <p class="mb-0">Cette fonctionnalité est en cours de développement.</p>
+            <h5>TestContainers pour Spring Boot</h5>
+            <p>TestContainers permet d'utiliser des containers Docker pour des tests d'intégration réalistes.</p>
+            
+            <h6 class="mt-3">Configuration de base</h6>
+            <div class="code-block">
+              <pre>@Testcontainers
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = NONE)
+class UserRepositoryTest {
+    @Container
+    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:15");
+    
+    @DynamicPropertySource
+    static void configureProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.datasource.url", postgres::getJdbcUrl);
+        registry.add("spring.datasource.username", postgres::getUsername);
+        registry.add("spring.datasource.password", postgres::getPassword);
+    }
+    
+    @Autowired UserRepository repo;
+    
+    @Test
+    void shouldSaveUser() {
+        User saved = repo.save(new User("test@example.com"));
+        assertNotNull(saved.getId());
+    }
+}</pre>
+            </div>
+            
+            <h5 class="mt-4">Avantages</h5>
+            <ul>
+              <li>Tests contre une vraie base de données</li>
+              <li>Isolation complète des tests</li>
+              <li>Support pour PostgreSQL, MySQL, MongoDB, etc.</li>
+              <li>Intégration transparente avec Spring Boot</li>
+            </ul>
+            
+            <div class="alert alert-warning mt-3">
+              <p><strong>Attention :</strong> Les tests avec TestContainers sont plus lents que les tests avec une base en mémoire. Utilisez-les judicieusement.</p>
+            </div>
+          `;
+          break;
+
+        case 'bdd-tests':
+          title = 'Tests BDD avec Cucumber';
+          content = `
+            <h5>Behavior Driven Development</h5>
+            <p>Le BDD permet de décrire le comportement du système en langage naturel.</p>
+            
+            <h6 class="mt-3">Exemple de fichier .feature</h6>
+            <div class="code-block">
+              <pre>Feature: Gestion des utilisateurs
+  Scenario: Création d'un utilisateur valide
+    Given Un formulaire de création d'utilisateur vide
+    When Je saisis "test@example.com" dans le champ email
+    And Je saisis "password123" dans le champ mot de passe
+    And Je soumets le formulaire
+    Then Je devrais voir "Utilisateur créé avec succès"
+    And Un nouvel utilisateur avec email "test@example.com" devrait exister</pre>
+            </div>
+            
+            <h6 class="mt-3">Implémentation Java</h6>
+            <div class="code-block">
+              <pre>public class UserSteps {
+    @Given("Un formulaire de création d'utilisateur vide")
+    public void emptyForm() {
+        driver.get("/users/new");
+    }
+    
+    @When("Je saisis {string} dans le champ email")
+    public void fillEmail(String email) {
+        driver.findElement(By.name("email")).sendKeys(email);
+    }
+    
+    @Then("Un nouvel utilisateur avec email {string} devrait exister")
+    public void verifyUserExists(String email) {
+        assertTrue(userRepository.findByEmail(email).isPresent());
+    }
+}</pre>
+            </div>
+            
+            <h5 class="mt-4">Avantages du BDD</h5>
+            <ul>
+              <li>Collaboration avec les non-développeurs</li>
+              <li>Documentation vivante</li>
+              <li>Tests orientés métier</li>
+              <li>Facile à maintenir</li>
+            </ul>
+          `;
+          break;
+
+        case 'ui-tests':
+          title = 'Tests UI avec Selenium et Page Object Model';
+          content = `
+            <h5>Page Object Model (POM)</h5>
+            <p>Le POM est un design pattern pour organiser les tests Selenium.</p>
+            
+            <h6 class="mt-3">Exemple de Page Object</h6>
+            <div class="code-block">
+              <pre>public class LoginPage {
+    private final WebDriver driver;
+    
+    @FindBy(name = "username") private WebElement usernameField;
+    @FindBy(name = "password") private WebElement passwordField;
+    @FindBy(tagName = "button") private WebElement loginButton;
+    
+    public LoginPage(WebDriver driver) {
+        this.driver = driver;
+        PageFactory.initElements(driver, this);
+    }
+    
+    public void login(String username, String password) {
+        usernameField.sendKeys(username);
+        passwordField.sendKeys(password);
+        loginButton.click();
+    }
+    
+    public boolean isErrorMessageDisplayed() {
+        return driver.findElements(By.className("error")).size() > 0;
+    }
+}</pre>
+            </div>
+            
+            <h6 class="mt-3">Utilisation dans les tests</h6>
+            <div class="code-block">
+              <pre>@Test
+void shouldShowErrorOnInvalidLogin() {
+    LoginPage loginPage = new LoginPage(driver);
+    loginPage.login("invalid", "credentials");
+    
+    assertTrue(loginPage.isErrorMessageDisplayed());
+}</pre>
+            </div>
+            
+            <h5 class="mt-4">Bonnes pratiques</h5>
+            <ul>
+              <li>Une classe par page/fragment</li>
+              <li>Méthodes pour les actions utilisateur</li>
+              <li>Méthodes pour les vérifications</li>
+              <li>Ne pas exposer les WebElements directement</li>
+              <li>Gérer les attentes explicitement</li>
+            </ul>
+          `;
+          break;
+
+        case 'performance-tests':
+          title = 'Tests de performance avec JMH';
+          content = `
+            <h5>Java Microbenchmark Harness (JMH)</h5>
+            <p>JMH est l'outil standard pour les micro-benchmarks en Java.</p>
+            
+            <h6 class="mt-3">Exemple de benchmark</h6>
+            <div class="code-block">
+              <pre>@Benchmark
+@BenchmarkMode(Mode.AverageTime)
+@OutputTimeUnit(TimeUnit.MILLISECONDS)
+@Fork(value = 2)
+@Warmup(iterations = 3)
+@Measurement(iterations = 5)
+public void benchmarkUserCreation() {
+    userService.createUser(new User("test_" + System.nanoTime()));
+}</pre>
+            </div>
+            
+            <h6 class="mt-3">Configuration Spring Boot</h6>
+            <div class="code-block">
+              <pre>@SpringBootTest
+@State(Scope.Benchmark)
+public class UserServiceBenchmark {
+    @Autowired UserService userService;
+    
+    @Benchmark
+    public void benchmark() {
+        // code du benchmark
+    }
+    
+    public static void main(String[] args) throws RunnerException {
+        Options opt = new OptionsBuilder()
+            .include(UserServiceBenchmark.class.getSimpleName())
+            .build();
+        new Runner(opt).run();
+    }
+}</pre>
+            </div>
+            
+            <h5 class="mt-4">Bonnes pratiques</h5>
+            <ul>
+              <li>Utilisez suffisamment de warmup iterations</li>
+              <li>Évitez les optimisations du dead code</li>
+              <li>Testez des scénarios réalistes</li>
+              <li>Comparez plusieurs implémentations</li>
+              <li>Exécutez sur une machine dédiée</li>
+            </ul>
+          `;
+          break;
+
+        default:
+          title = 'Détails techniques';
+          content = `
+            <div class="alert alert-info">
+              <p>Cette section est en cours d'enrichissement.</p>
+              <p class="mb-0">Nous ajoutons continuellement de nouveaux contenus techniques détaillés.</p>
             </div>
           `;
       }
@@ -1148,43 +1440,260 @@ class UserControllerIntegrationTest {
           title = 'Gestion des étudiants avec TDD';
           content = `
             <h5>Contexte</h5>
-            <p>Développement d'un système de gestion d'étudiants en suivant strictement le TDD.</p>
+            <p>Développement d'un système de gestion d'étudiants pour une université en suivant strictement le TDD.</p>
             
             <h5 class="mt-4">Fonctionnalités implémentées</h5>
             <ul>
-              <li>Création d'étudiant avec validation</li>
-              <li>Recherche par nom/prénom</li>
+              <li>CRUD complet des étudiants</li>
+              <li>Validation des données (nom, email, etc.)</li>
+              <li>Recherche multicritère</li>
               <li>Pagination des résultats</li>
-              <li>Statistiques (moyenne d'âge, etc.)</li>
+              <li>Statistiques (moyenne d'âge, répartition par filière)</li>
+              <li>Export CSV/PDF</li>
             </ul>
             
             <h5 class="mt-4">Processus TDD</h5>
             <ol>
-              <li>Écriture du test pour la création d'étudiant</li>
-              <li>Implémentation minimale du service</li>
+              <li>Écriture du test pour la création d'étudiant (RED)</li>
+              <li>Implémentation minimale du service (GREEN)</li>
               <li>Refactor pour ajouter la validation</li>
-              <li>Écriture du test pour la recherche</li>
-              <li>Implémentation du repository</li>
-              <li>Etc.</li>
+              <li>Écriture du test pour la recherche (RED)</li>
+              <li>Implémentation du repository (GREEN)</li>
+              <li>Refactor pour optimiser les requêtes</li>
+              <li>Répétition pour chaque nouvelle fonctionnalité</li>
             </ol>
             
             <h5 class="mt-4">Technologies</h5>
             <ul>
-              <li>Spring Boot</li>
-              <li>JPA/Hibernate</li>
+              <li>Spring Boot 3</li>
+              <li>Spring Data JPA</li>
+              <li>Hibernate Validator</li>
               <li>JUnit 5</li>
               <li>Mockito</li>
-              <li>TestContainers</li>
+              <li>TestContainers (PostgreSQL)</li>
+              <li>Lombok</li>
             </ul>
+            
+            <h5 class="mt-4">Leçons apprises</h5>
+            <div class="alert alert-info">
+              <ul>
+                <li>Le TDD force à bien définir les spécifications avant de coder</li>
+                <li>Les tests servent de documentation technique</li>
+                <li>Le refactoring est beaucoup moins risqué avec une bonne couverture</li>
+                <li>TestContainers permet des tests d'intégration très réalistes</li>
+              </ul>
+            </div>
+          `;
+          break;
+
+        case 'api-ecommerce':
+          title = 'API e-commerce avec Spring Boot';
+          content = `
+            <h5>Contexte</h5>
+            <p>Développement d'une API REST pour une plateforme e-commerce en suivant les bonnes pratiques de test.</p>
+            
+            <h5 class="mt-4">Fonctionnalités clés</h5>
+            <ul>
+              <li>Gestion des produits et catégories</li>
+              <li>Panier d'achat</li>
+              <li>Commandes et paiements</li>
+              <li>Authentification JWT</li>
+              <li>Documentation OpenAPI</li>
+              <li>Cache Redis</li>
+            </ul>
+            
+            <h5 class="mt-4">Stratégie de test</h5>
+            <div class="row">
+              <div class="col-md-6">
+                <h6>Tests unitaires</h6>
+                <ul>
+                  <li>Services métier</li>
+                  <li>Utils et helpers</li>
+                  <li>Validation</li>
+                  <li>Calculs de prix</li>
+                </ul>
+              </div>
+              <div class="col-md-6">
+                <h6>Tests d'intégration</h6>
+                <ul>
+                  <li>API endpoints (MockMvc)</li>
+                  <li>Intégration JPA</li>
+                  <li>Cache configuration</li>
+                  <li>Sécurité</li>
+                </ul>
+              </div>
+            </div>
+            
+            <h5 class="mt-4">Stack technique</h5>
+            <table class="table table-sm">
+              <thead>
+                <tr><th>Composant</th><th>Technologie</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>API REST</td><td>Spring Web</td></tr>
+                <tr><td>Persistence</td><td>Spring Data JPA + PostgreSQL</td></tr>
+                <tr><td>Sécurité</td><td>Spring Security + JWT</td></tr>
+                <tr><td>Cache</td><td>Redis</td></tr>
+                <tr><td>Documentation</td><td>SpringDoc OpenAPI</td></tr>
+                <tr><td>Tests</td><td>JUnit 5, Mockito, TestContainers</td></tr>
+              </tbody>
+            </table>
+          `;
+          break;
+
+        case 'auth-system':
+          title = 'Système d\'authentification sécurisé';
+          content = `
+            <h5>Contexte</h5>
+            <p>Implémentation d'un système d'authentification moderne avec tests complets.</p>
+            
+            <h5 class="mt-4">Fonctionnalités</h5>
+            <ul>
+              <li>Inscription avec email de confirmation</li>
+              <li>Connexion JWT</li>
+              <li>Renouvellement de token</li>
+              <li>RBAC (Role-Based Access Control)</li>
+              <li>OAuth2 (Google, GitHub)</li>
+              <li>Mots de passe oubliés</li>
+            </ul>
+            
+            <h5 class="mt-4">Couverture de test</h5>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="card mb-3">
+                  <div class="card-header bg-test text-white">
+                    <h6>Unitaires</h6>
+                  </div>
+                  <div class="card-body">
+                    <ul>
+                      <li>Services d'authentification</li>
+                      <li>Générateur de tokens</li>
+                      <li>Validation</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="card mb-3">
+                  <div class="card-header bg-test text-white">
+                    <h6>Intégration</h6>
+                  </div>
+                  <div class="card-body">
+                    <ul>
+                      <li>Endpoints API</li>
+                      <li>Intégration JPA</li>
+                      <li>Email service</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="card mb-3">
+                  <div class="card-header bg-test text-white">
+                    <h6>Sécurité</h6>
+                  </div>
+                  <div class="card-body">
+                    <ul>
+                      <li>Tests de pénétration</li>
+                      <li>Scénarios malveillants</li>
+                      <li>Configuration sécurité</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <h5 class="mt-4">Exemple de test de sécurité</h5>
+            <div class="code-block">
+              <pre>@Test
+void shouldPreventTokenForgery() {
+    // Génère un token valide
+    String validToken = tokenService.generateToken(user);
+    
+    // Modifie le token
+    String forgedToken = validToken.substring(0, validToken.length() - 2) + "xx";
+    
+    // Tente de l'utiliser
+    assertThrows(InvalidTokenException.class, 
+        () -> tokenService.validateToken(forgedToken));
+}</pre>
+            </div>
+          `;
+          break;
+
+        case 'microservices':
+          title = 'Architecture Microservices';
+          content = `
+            <h5>Contexte</h5>
+            <p>Développement d'une architecture microservices avec tests contractuels et E2E.</p>
+            
+            <h5 class="mt-4">Services</h5>
+            <ul>
+              <li>Service Utilisateurs</li>
+              <li>Service Commandes</li>
+              <li>Service Paiements</li>
+              <li>Service Notifications</li>
+              <li>API Gateway</li>
+              <li>Service Discovery</li>
+            </ul>
+            
+            <h5 class="mt-4">Stratégie de test</h5>
+            <div class="process-step">
+              <h6>1. Tests unitaires</h6>
+              <p>Dans chaque service indépendamment</p>
+            </div>
+            <div class="process-step">
+              <h6>2. Tests contractuels</h6>
+              <p>Avec Spring Cloud Contract pour définir les contrats entre services</p>
+            </div>
+            <div class="process-step">
+              <h6>3. Tests d'intégration</h6>
+              <p>TestContainers pour les dépendances (bases de données, etc.)</p>
+            </div>
+            <div class="process-step">
+              <h6>4. Tests E2E</h6>
+              <p>Avec une orchestration complète en environnement de test</p>
+            </div>
+            
+            <h5 class="mt-4">Spring Cloud Contract</h5>
+            <div class="code-block">
+              <pre>Contract.make {
+    request {
+        method 'GET'
+        url '/users/123'
+    }
+    response {
+        status 200
+        body([
+            id: 123,
+            name: "John Doe",
+            email: "john@example.com"
+        ])
+        headers {
+            contentType('application/json')
+        }
+    }
+}</pre>
+            </div>
+            
+            <h5 class="mt-4">Leçons apprises</h5>
+            <div class="alert alert-info">
+              <ul>
+                <li>Les tests contractuels sont essentiels pour les microservices</li>
+                <li>Il faut tester à la fois le producteur et le consommateur</li>
+                <li>Les tests E2E doivent être limités aux scénarios critiques</li>
+                <li>La gestion des données de test est complexe dans un système distribué</li>
+              </ul>
+            </div>
           `;
           break;
 
         default:
-          title = 'Cas pratique non trouvé';
+          title = 'Cas pratique technique';
           content = `
-            <div class="alert alert-warning">
-              <p>Le cas pratique demandé n'est pas encore disponible.</p>
-              <p class="mb-0">Nous ajoutons régulièrement de nouveaux cas pratiques.</p>
+            <div class="alert alert-info">
+              <p>Nous préparons actuellement une étude de cas détaillée sur ce sujet.</p>
+              <p class="mb-0">Revenez bientôt pour découvrir cette analyse complète avec exemples de code et bonnes pratiques.</p>
             </div>
           `;
       }
