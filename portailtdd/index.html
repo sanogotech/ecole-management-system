@@ -239,6 +239,64 @@
         font-size: 1.5rem;
       }
     }
+	
+	 .practice-list {
+    list-style-type: none;
+    padding-left: 0;
+    counter-reset: practice-counter;
+  }
+  
+  .practice-list li {
+    counter-increment: practice-counter;
+    margin-bottom: 1.5rem;
+    padding-left: 2.5rem;
+    position: relative;
+    border-left: 3px solid #eee;
+    padding-bottom: 0.5rem;
+  }
+  
+  .practice-list li::before {
+    content: counter(practice-counter);
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: var(--primary-color);
+    color: white;
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    font-weight: bold;
+  }
+  
+  .practice-list li strong {
+    color: var(--primary-color);
+    font-size: 1.1rem;
+  }
+  
+  .practice-list li p {
+    margin-bottom: 0;
+    margin-top: 0.3rem;
+    color: #666;
+  }
+  
+  .quality-metrics .metric {
+    margin-bottom: 1rem;
+  }
+  
+  .metric-label {
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+  }
+  
+  .progress {
+    height: 1.5rem;
+    border-radius: 0.3rem;
+    background-color: #f5f5f5;
+  }
   </style>
 </head>
 <body>
@@ -310,132 +368,611 @@
       </div>
     </section>
 
-    <section id="tdd" class="mb-5">
-      <h2 class="text-center mb-4">Test Driven Development (TDD)</h2>
-      
-      <div class="row mb-4">
-        <div class="col-md-6">
-          <div class="card h-100 tdd-card">
-            <div class="card-header d-flex align-items-center">
-              <i class="bi bi-journal-bookmark me-2"></i>
-              <h5 class="mb-0">Introduction au TDD</h5>
-            </div>
-            <div class="card-body">
-              <p>Le TDD est une méthodologie de développement qui inverse le processus traditionnel :</p>
-              <div class="highlight-box">
-                <p><strong>Cycle Red-Green-Refactor :</strong></p>
-                <ol>
-                  <li><strong>Red :</strong> Écrire un test qui échoue</li>
-                  <li><strong>Green :</strong> Implémenter le code minimal pour passer le test</li>
-                  <li><strong>Refactor :</strong> Améliorer le code sans changer son comportement</li>
-                </ol>
-              </div>
-              <button class="btn btn-tdd btn-sm mt-3" onclick="showDetails('tdd-intro')">
-                <i class="bi bi-info-circle me-1"></i>Avantages du TDD
-              </button>
-            </div>
-          </div>
+<section id="tdd" class="mb-5">
+  <h2 class="text-center mb-4">Test Driven Development (TDD)</h2>
+  
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <div class="card h-100 tdd-card">
+        <div class="card-header d-flex align-items-center">
+          <i class="bi bi-journal-bookmark me-2"></i>
+          <h5 class="mb-0">Introduction au TDD</h5>
         </div>
-        
-        <div class="col-md-6">
-          <div class="card h-100 tdd-card">
-            <div class="card-header d-flex align-items-center">
-              <i class="bi bi-code-square me-2"></i>
-              <h5 class="mb-0">Exemple de TDD</h5>
-            </div>
-            <div class="card-body">
-              <p>Implémentation d'une calculatrice simple avec TDD :</p>
-              <div class="code-block">
-                <pre>// 1. Test (RED)
+        <div class="card-body">
+          <p>Le Test Driven Development (TDD) est une méthodologie de développement logiciel révolutionnaire qui inverse radicalement le processus traditionnel. Contrairement à l'approche classique où on écrit d'abord le code puis les tests, le TDD impose d'écrire les tests avant même la première ligne de code de production.</p>
+          
+          <div class="highlight-box">
+            <p><strong>Cycle Red-Green-Refactor :</strong> Le cœur battant du TDD</p>
+            <ol>
+              <li><strong>Red :</strong> Écrire un test unitaire qui décrit une petite fonctionnalité. Ce test doit échouer initialement (d'où "Red") car la fonctionnalité n'existe pas encore. Ceci valide que le test est significatif.</li>
+              <li><strong>Green :</strong> Implémenter le code minimal le plus simple possible pour faire passer le test ("Green"). On cherche ici à satisfaire le test sans ajouter de fonctionnalités superflues.</li>
+              <li><strong>Refactor :</strong> Une fois le test passé, améliorer la qualité du code tout en maintenant les tests verts. Cela inclut l'élimination des duplications, l'amélioration de la lisibilité et l'optimisation des performances.</li>
+            </ol>
+            <p>Ce cycle, répété typiquement toutes les 1 à 5 minutes, crée une progression incrémentale et mesurable du développement.</p>
+          </div>
+          
+          <div class="mt-3">
+            <h6>Origines et philosophie :</h6>
+            <p>Popularisé par Kent Beck dans le cadre de l'eXtreme Programming, le TDD s'appuie sur deux principes clés :</p>
+            <ul>
+              <li><strong>YAGNI (You Ain't Gonna Need It):</strong> Ne pas implémenter de fonctionnalités avant d'en avoir besoin</li>
+              <li><strong>KISS (Keep It Simple, Stupid):</strong> La solution la plus simple qui marche</li>
+            </ul>
+          </div>
+          
+          <button class="btn btn-tdd btn-sm mt-3" onclick="showDetails('tdd-intro')">
+            <i class="bi bi-info-circle me-1"></i>Avantages approfondis du TDD
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-6">
+      <div class="card h-100 tdd-card">
+        <div class="card-header d-flex align-items-center">
+          <i class="bi bi-code-square me-2"></i>
+          <h5 class="mb-0">Exemples concrets de TDD</h5>
+        </div>
+        <div class="card-body">
+          <p>Prenons l'exemple complet d'une calculatrice implémentée avec TDD :</p>
+          
+          <div class="code-block">
+            <pre>// Premier cycle - Addition simple
+// Étape RED
 @Test
 void shouldReturn4WhenAdding2And2() {
     Calculator calc = new Calculator();
-    assertEquals(4, calc.add(2, 2));
+    assertEquals(4, calc.add(2, 2)); // Échec: méthode add() n'existe pas
 }
 
-// 2. Implémentation minimale (GREEN)
+// Étape GREEN
 public class Calculator {
     public int add(int a, int b) {
-        return a + b;
+        return 4; // Implémentation minimale pour passer le test
     }
 }
 
-// 3. Refactor (amélioration possible)
-// Ajout de validation des entrées, logs, etc.</pre>
-              </div>
-              <button class="btn btn-tdd btn-sm mt-2" onclick="showDetails('tdd-example')">
-                <i class="bi bi-info-circle me-1"></i>Plus d'exemples
-              </button>
+// Étape REFACTOR
+public class Calculator {
+    public int add(int a, int b) {
+        return a + b; // Généralisation après plusieurs tests
+    }
+}
+
+// Deuxième cycle - Gestion des nombres négatifs
+@Test
+void shouldReturnNegativeWhenAddingNegatives() {
+    Calculator calc = new Calculator();
+    assertEquals(-5, calc.add(-2, -3));
+}
+
+// Troisième cycle - Validation des entrées
+@Test
+void shouldThrowExceptionWhenOverflow() {
+    Calculator calc = new Calculator();
+    assertThrows(ArithmeticException.class, () -> 
+        calc.add(Integer.MAX_VALUE, 1));
+}
+
+// Implémentation finale avec validation
+public class Calculator {
+    public int add(int a, int b) {
+        long result = (long)a + (long)b;
+        if (result > Integer.MAX_VALUE || result < Integer.MIN_VALUE) {
+            throw new ArithmeticException("Integer overflow");
+        }
+        return a + b;
+    }
+}</pre>
+          </div>
+          
+          <div class="mt-3">
+            <h6>Autre exemple : Validation d'email</h6>
+            <pre>// Premier test - Format basique
+@Test
+void shouldValidateSimpleEmail() {
+    assertTrue(EmailValidator.isValid("test@example.com"));
+}
+
+// Implémentation progressive
+public class EmailValidator {
+    public static boolean isValid(String email) {
+        return email.matches("^[^@]+@[^@]+\\.[^@]+$");
+    }
+}
+
+// Tests supplémentaires pour raffiner
+@Test
+void shouldRejectInvalidEmails() {
+    assertFalse(EmailValidator.isValid("invalid"));
+    assertFalse(EmailValidator.isValid("invalid@"));
+    assertFalse(EmailValidator.isValid("@domain.com"));
+}</pre>
+          </div>
+          
+          <button class="btn btn-tdd btn-sm mt-2" onclick="showDetails('tdd-example')">
+            <i class="bi bi-info-circle me-1"></i>Cas d'entreprise réels
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card h-100 tdd-card">
+        <div class="card-header d-flex align-items-center">
+          <i class="bi bi-lightbulb me-2"></i>
+          <h5 class="mb-0">Avantages stratégiques du TDD</h5>
+        </div>
+        <div class="card-body">
+          <ul>
+            <li><strong>Couverture de test élevée :</strong> 90-100% contre 20-30% en approche traditionnelle. Chaque ligne de code est écrite pour répondre à un test spécifique.</li>
+            <li><strong>Design émergent :</strong> Le code évolue naturellement vers une architecture modulaire et faiblement couplée pour faciliter les tests.</li>
+            <li><strong>Documentation vivante :</strong> Les tests servent de spécifications exécutables, toujours à jour contrairement aux documents statiques.</li>
+            <li><strong>Réduction des bugs :</strong> 40-80% moins de bugs en production selon diverses études (IBM, Microsoft).</li>
+            <li><strong>Refactoring sécurisé :</strong> La suite de tests permet de modifier le code en confiance, essentiel pour l'évolution à long terme.</li>
+            <li><strong>Focus maintenu :</strong> Travailler par petits incréments évite le "gold plating" et les features creep.</li>
+            <li><strong>Meilleure conception :</strong> L'écriture des tests en premier force à penser l'API avant l'implémentation.</li>
+          </ul>
+          
+          <div class="case-study mt-3">
+            <h6>Étude de cas : projet NASA</h6>
+            <p>La mission Space Shuttle a utilisé une approche similaire au TDD, résultant en seulement 17 bugs critiques sur 420 000 lignes de code (0.004%).</p>
+          </div>
+          
+          <button class="btn btn-tdd btn-sm mt-2" onclick="showDetails('tdd-benefits')">
+            <i class="bi bi-info-circle me-1"></i>Données scientifiques
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-4">
+      <div class="card h-100 tdd-card">
+        <div class="card-header d-flex align-items-center">
+          <i class="bi bi-exclamation-triangle me-2"></i>
+          <h5 class="mb-0">Challenges et solutions</h5>
+        </div>
+        <div class="card-body">
+          <ul>
+            <li><strong>Courbe d'apprentissage :</strong> 3-6 mois pour devenir productif. Solution : Pair programming avec un expert TDD.</li>
+            <li><strong>Adaptation mentale :</strong> Difficile pour les développeurs expérimentés. Solution : Ateliers pratiques avec katas.</li>
+            <li><strong>Temps initial plus long :</strong> 15-30% plus long au début. Solution : Le temps est rattrapé lors de la maintenance.</li>
+            <li><strong>Tests mal conçus :</strong> Tests fragiles ou trop larges. Solution : Former aux principes FIRST (Fast, Isolated, Repeatable, Self-Validating, Timely).</li>
+            <li><strong>Sur-mock :</strong> Isolation excessive menant à des tests non réalistes. Solution : Utiliser des tests d'intégration judicieusement.</li>
+            <li><strong>Tests lents :</strong> Suite de tests trop lente pour être exécutée fréquemment. Solution : Stratégie de test pyramidale (70% unitaires, 20% intégration, 10% E2E).</li>
+            <li><strong>Résistance organisationnelle :</strong> Management focalisé sur la vélocité à court terme. Solution : Mesurer la qualité et les coûts de maintenance.</li>
+          </ul>
+          
+          <div class="pro-tip mt-3">
+            <h6>Astuce professionnelle :</h6>
+            <p>Commencez par appliquer le TDD aux nouveaux composants plutôt qu'au code legacy. Utilisez le "Scout Rule" (laisser le code mieux que vous ne l'avez trouvé) pour améliorer progressivement le code existant.</p>
+          </div>
+          
+          <button class="btn btn-tdd btn-sm mt-2" onclick="showDetails('tdd-challenges')">
+            <i class="bi bi-info-circle me-1"></i>Stratégies d'adoption
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-4">
+      <div class="card h-100 tdd-card">
+        <div class="card-header d-flex align-items-center">
+          <i class="bi bi-puzzle me-2"></i>
+          <h5 class="mb-0">Bonnes pratiques avancées</h5>
+        </div>
+        <div class="card-body">
+          <ul>
+            <li><strong>Tests rapides :</strong> Moins d'1ms par test. Éviter les I/O, utiliser des mocks pour les dépendances lentes.</li>
+            <li><strong>Tests isolés :</strong> Un test = une assertion. Éviter les tests qui dépendent de l'état précédent.</li>
+            <li><strong>Nommage clair :</strong> Utiliser la convention "should[ExpectedBehavior]When[StateUnderTest]" (ex: "shouldThrowExceptionWhenDivisorIsZero").</li>
+            <li><strong>Éviter les détails d'implémentation :</strong> Tester le comportement (what) pas l'implémentation (how).</li>
+            <li><strong>Refactor constant :</strong> Appliquer le "Boy Scout Rule" - toujours laisser le code plus propre.</li>
+            <li><strong>Test List :</strong> Lister les tests à écrire avant de commencer (technique de Kent Beck).</li>
+            <li><strong>Fake it till you make it :</strong> Commencer par des valeurs codées en dur puis généraliser.</li>
+            <li><strong>Triangulation :</strong> Généraliser seulement quand on a plusieurs exemples concrets.</li>
+          </ul>
+          
+          <div class="advanced-topic mt-3">
+            <h6>Technique avancée : Property-Based Testing</h6>
+            <p>Au-delà des exemples, tester des propriétés mathématiques (ex: ∀ a,b ∈ ℤ, a + b = b + a) avec des librairies comme QuickCheck.</p>
+            <pre>@Test
+void additionIsCommutative() {
+    forAll(integers(), integers(), (a, b) -> 
+        calc.add(a, b) == calc.add(b, a));
+}</pre>
+          </div>
+          
+          <button class="btn btn-tdd btn-sm mt-2" onclick="showDetails('tdd-best-practices')">
+            <i class="bi bi-info-circle me-1"></i>Outils recommandés
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="row mt-4">
+    <div class="col-md-12">
+      <div class="card tdd-card">
+        <div class="card-header d-flex align-items-center">
+          <i class="bi bi-graph-up me-2"></i>
+          <h5 class="mb-0">Métriques et ROI du TDD</h5>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              <h6>Impact sur la qualité :</h6>
+              <ul>
+                <li>Réduction de 40-90% des bugs en production (étude Microsoft)</li>
+                <li>Temps de debug réduit de 50-75%</li>
+                <li>Couverture de code typique de 90-100% vs 20-40%</li>
+              </ul>
+              
+              <h6 class="mt-3">Coûts et économies :</h6>
+              <table class="table table-sm">
+                <tr><th>Phase</th><th>Coût sans TDD</th><th>Coût avec TDD</th></tr>
+                <tr><td>Développement</td><td>100%</td><td>115-130%</td></tr>
+                <tr><td>Tests QA</td><td>100%</td><td>30-50%</td></tr>
+                <tr><td>Maintenance</td><td>100%</td><td>20-40%</td></tr>
+              </table>
+            </div>
+            <div class="col-md-6">
+              <h6>Courbe d'adoption typique :</h6>
+              <img src="/images/tdd-adoption-curve.png" alt="Courbe d'adoption TDD" class="img-fluid mb-3">
+              <p>Les équipes expérimentées en TDD peuvent atteindre une productivité égale ou supérieure après 6-12 mois.</p>
+              
+              <h6 class="mt-3">Facteurs clés de succès :</h6>
+              <ol>
+                <li>Engagement de la direction</li>
+                <li>Formation continue</li>
+                <li>Revues de code focalisées sur les tests</li>
+                <li>Outillage adapté (CI, couverture de code)</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="junit-mockito" class="mb-5">
+  <h2 class="text-center mb-4">JUnit 5 & Mockito - Test Driven Development</h2>
+  
+  <div class="card mb-4">
+    <div class="card-header bg-dark text-white">
+      <i class="bi bi-gear me-2"></i>Cas pratique complet : Système de gestion de bibliothèque
+    </div>
+    <div class="card-body">
+      <h5 class="mb-3">Scénario : Emprunt d'un livre avec vérifications complexes</h5>
+      
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card mb-3">
+            <div class="card-header bg-light">
+              <i class="bi bi-check-circle me-2"></i>Spécifications
+            </div>
+            <div class="card-body">
+              <ul>
+                <li>Un membre peut emprunter un livre disponible</li>
+                <li>Un membre ne peut pas emprunter s'il a des amendes non payées</li>
+                <li>Un membre ne peut pas emprunter s'il a déjà 5 livres</li>
+                <li>Les livres de référence ne peuvent pas être empruntés</li>
+                <li>L'emprunt doit être enregistré dans le système</li>
+                <li>Le livre doit être marqué comme "emprunté"</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card mb-3">
+            <div class="card-header bg-light">
+              <i class="bi bi-layers me-2"></i>Architecture
+            </div>
+            <div class="card-body">
+              <ul>
+                <li><strong>LoanService</strong> - Cœur de la logique métier</li>
+                <li><strong>BookRepository</strong> - Accès aux données des livres</li>
+                <li><strong>MemberRepository</strong> - Gestion des membres</li>
+                <li><strong>LoanRepository</strong> - Historique des emprunts</li>
+                <li><strong>FineService</strong> - Vérification des amendes</li>
+              </ul>
             </div>
           </div>
         </div>
       </div>
       
-      <div class="row">
-        <div class="col-md-4">
-          <div class="card h-100 tdd-card">
-            <div class="card-header d-flex align-items-center">
-              <i class="bi bi-lightbulb me-2"></i>
-              <h5 class="mb-0">Avantages</h5>
-            </div>
-            <div class="card-body">
-              <ul>
-                <li>Couverture de test élevée</li>
-                <li>Design émergent</li>
-                <li>Documentation vivante</li>
-                <li>Réduction des bugs</li>
-                <li>Refactoring sécurisé</li>
-              </ul>
-              <button class="btn btn-tdd btn-sm mt-2" onclick="showDetails('tdd-benefits')">
-                <i class="bi bi-info-circle me-1"></i>En savoir plus
-              </button>
-            </div>
-          </div>
+      <hr>
+      
+      <h4 class="mt-4 mb-3">Implémentation TDD avec JUnit 5 et Mockito</h4>
+      
+      <!-- Test 1 : Emprunt réussi -->
+      <div class="card mb-4">
+        <div class="card-header test-success">
+          <i class="bi bi-check-square me-2"></i>Test 1 - Emprunt réussi (Happy Path)
         </div>
+        <div class="card-body">
+          <pre><code class="language-java">@ExtendWith(MockitoExtension.class)
+class LoanServiceTest {
+
+    @Mock
+    private BookRepository bookRepository;
+    
+    @Mock
+    private MemberRepository memberRepository;
+    
+    @Mock
+    private LoanRepository loanRepository;
+    
+    @Mock
+    private FineService fineService;
+    
+    @InjectMocks
+    private LoanService loanService;
+
+    @Test
+    @DisplayName("Given un livre disponible et un membre éligible When emprunt Then succès")
+    void borrowBook_success() {
+        // Given
+        String isbn = "123-4567890";
+        Long memberId = 1L;
         
-        <div class="col-md-4">
-          <div class="card h-100 tdd-card">
-            <div class="card-header d-flex align-items-center">
-              <i class="bi bi-exclamation-triangle me-2"></i>
-              <h5 class="mb-0">Challenges</h5>
-            </div>
-            <div class="card-body">
-              <ul>
-                <li>Courbe d'apprentissage</li>
-                <li>Adaptation mentale</li>
-                <li>Temps initial plus long</li>
-                <li>Tests mal conçus</li>
-                <li>Sur-mock</li>
-              </ul>
-              <button class="btn btn-tdd btn-sm mt-2" onclick="showDetails('tdd-challenges')">
-                <i class="bi bi-info-circle me-1"></i>Solutions
-              </button>
-            </div>
-          </div>
-        </div>
+        Book mockBook = new Book(isbn, "Effective Java", "Joshua Bloch", BookType.LOANABLE);
+        Member mockMember = new Member(memberId, "Dupont", "Jean", 2);
         
-        <div class="col-md-4">
-          <div class="card h-100 tdd-card">
-            <div class="card-header d-flex align-items-center">
-              <i class="bi bi-puzzle me-2"></i>
-              <h5 class="mb-0">Bonnes pratiques</h5>
-            </div>
-            <div class="card-body">
-              <ul>
-                <li>Tests rapides</li>
-                <li>Tests isolés</li>
-                <li>Nommage clair</li>
-                <li>Éviter les détails d'implémentation</li>
-                <li>Refactor constant</li>
-              </ul>
-              <button class="btn btn-tdd btn-sm mt-2" onclick="showDetails('tdd-best-practices')">
-                <i class="bi bi-info-circle me-1"></i>Détails
-              </button>
-            </div>
-          </div>
+        when(bookRepository.findByIsbn(isbn)).thenReturn(Optional.of(mockBook));
+        when(memberRepository.findById(memberId)).thenReturn(Optional.of(mockMember));
+        when(fineService.hasOutstandingFines(memberId)).thenReturn(false);
+        when(loanRepository.countActiveLoans(memberId)).thenReturn(2);
+        
+        // When
+        LoanResult result = loanService.borrowBook(isbn, memberId);
+        
+        // Then
+        assertThat(result.isSuccess()).isTrue();
+        assertThat(result.getLoan()).isNotNull();
+        
+        verify(bookRepository).markAsBorrowed(isbn);
+        verify(loanRepository).save(any(Loan.class));
+    }
+}</code></pre>
         </div>
       </div>
-    </section>
+      
+      <!-- Test 2 : Livre non disponible -->
+      <div class="card mb-4">
+        <div class="card-header test-failure">
+          <i class="bi bi-exclamation-triangle me-2"></i>Test 2 - Livre non disponible
+        </div>
+        <div class="card-body">
+          <pre><code class="language-java">@Test
+@DisplayName("Given un livre non disponible When emprunt Then échec")
+void borrowBook_bookNotAvailable_shouldFail() {
+    // Given
+    String isbn = "123-4567890";
+    Long memberId = 1L;
+    
+    when(bookRepository.findByIsbn(isbn)).thenReturn(Optional.empty());
+    
+    // When
+    LoanResult result = loanService.borrowBook(isbn, memberId);
+    
+    // Then
+    assertThat(result.isSuccess()).isFalse();
+    assertThat(result.getError()).isEqualTo("Livre non trouvé");
+    
+    verify(bookRepository, never()).markAsBorrowed(anyString());
+    verify(loanRepository, never()).save(any());
+}</code></pre>
+        </div>
+      </div>
+      
+      <!-- Test 3 : Membre avec amendes -->
+      <div class="card mb-4">
+        <div class="card-header test-failure">
+          <i class="bi bi-exclamation-triangle me-2"></i>Test 3 - Membre avec amendes impayées
+        </div>
+        <div class="card-body">
+          <pre><code class="language-java">@Test
+@DisplayName("Given un membre avec amendes When emprunt Then échec")
+void borrowBook_memberWithFines_shouldFail() {
+    // Given
+    String isbn = "123-4567890";
+    Long memberId = 1L;
+    
+    Book mockBook = new Book(isbn, "Effective Java", "Joshua Bloch", BookType.LOANABLE);
+    Member mockMember = new Member(memberId, "Dupont", "Jean", 2);
+    
+    when(bookRepository.findByIsbn(isbn)).thenReturn(Optional.of(mockBook));
+    when(memberRepository.findById(memberId)).thenReturn(Optional.of(mockMember));
+    when(fineService.hasOutstandingFines(memberId)).thenReturn(true);
+    
+    // When
+    LoanResult result = loanService.borrowBook(isbn, memberId);
+    
+    // Then
+    assertThat(result.isSuccess()).isFalse();
+    assertThat(result.getError()).isEqualTo("Amendes impayées");
+    
+    verify(bookRepository, never()).markAsBorrowed(anyString());
+    verify(loanRepository, never()).save(any());
+}</code></pre>
+        </div>
+      </div>
+      
+      <!-- Test 4 : Livre de référence -->
+      <div class="card mb-4">
+        <div class="card-header test-failure">
+          <i class="bi bi-exclamation-triangle me-2"></i>Test 4 - Livre de référence non empruntable
+        </div>
+        <div class="card-body">
+          <pre><code class="language-java">@Test
+@DisplayName("Given un livre de référence When emprunt Then échec")
+void borrowBook_referenceBook_shouldFail() {
+    // Given
+    String isbn = "REF-123456";
+    Long memberId = 1L;
+    
+    Book mockBook = new Book(isbn, "Oxford Dictionary", "Various", BookType.REFERENCE);
+    Member mockMember = new Member(memberId, "Dupont", "Jean", 2);
+    
+    when(bookRepository.findByIsbn(isbn)).thenReturn(Optional.of(mockBook));
+    when(memberRepository.findById(memberId)).thenReturn(Optional.of(mockMember));
+    when(fineService.hasOutstandingFines(memberId)).thenReturn(false);
+    
+    // When
+    LoanResult result = loanService.borrowBook(isbn, memberId);
+    
+    // Then
+    assertThat(result.isSuccess()).isFalse();
+    assertThat(result.getError()).isEqualTo("Les livres de référence ne peuvent être empruntés");
+    
+    verify(bookRepository, never()).markAsBorrowed(anyString());
+    verify(loanRepository, never()).save(any());
+}</code></pre>
+        </div>
+      </div>
+      
+      <!-- Implémentation finale -->
+      <div class="card mt-4">
+        <div class="card-header bg-primary text-white">
+          <i class="bi bi-code-slash me-2"></i>Implémentation finale du LoanService
+        </div>
+        <div class="card-body">
+          <pre><code class="language-java">public class LoanService {
+
+    private final BookRepository bookRepository;
+    private final MemberRepository memberRepository;
+    private final LoanRepository loanRepository;
+    private final FineService fineService;
+    
+    public LoanService(BookRepository bookRepository, 
+                      MemberRepository memberRepository,
+                      LoanRepository loanRepository,
+                      FineService fineService) {
+        this.bookRepository = bookRepository;
+        this.memberRepository = memberRepository;
+        this.loanRepository = loanRepository;
+        this.fineService = fineService;
+    }
+    
+    public LoanResult borrowBook(String isbn, Long memberId) {
+        // Vérification du livre
+        Optional&lt;Book&gt; optionalBook = bookRepository.findByIsbn(isbn);
+        if (optionalBook.isEmpty()) {
+            return LoanResult.error("Livre non trouvé");
+        }
+        
+        Book book = optionalBook.get();
+        if (book.getType() == BookType.REFERENCE) {
+            return LoanResult.error("Les livres de référence ne peuvent être empruntés");
+        }
+        
+        // Vérification du membre
+        Optional&lt;Member&gt; optionalMember = memberRepository.findById(memberId);
+        if (optionalMember.isEmpty()) {
+            return LoanResult.error("Membre non trouvé");
+        }
+        
+        Member member = optionalMember.get();
+        
+        // Vérification des amendes
+        if (fineService.hasOutstandingFines(memberId)) {
+            return LoanResult.error("Amendes impayées");
+        }
+        
+        // Vérification du nombre d'emprunts
+        int activeLoans = loanRepository.countActiveLoans(memberId);
+        if (activeLoans >= 5) {
+            return LoanResult.error("Quota d'emprunts atteint");
+        }
+        
+        // Création de l'emprunt
+        Loan loan = new Loan(book, member, LocalDate.now(), 
+                           LocalDate.now().plusWeeks(2));
+        
+        // Persistance
+        bookRepository.markAsBorrowed(isbn);
+        Loan savedLoan = loanRepository.save(loan);
+        
+        return LoanResult.success(savedLoan);
+    }
+}</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Bonnes pratiques -->
+  <div class="row mt-4">
+    <div class="col-md-6">
+      <div class="card h-100">
+        <div class="card-header bg-info text-white">
+          <i class="bi bi-check-circle me-2"></i>Bonnes pratiques JUnit 5
+        </div>
+        <div class="card-body">
+          <ul>
+            <li><strong>@DisplayName :</strong> Utilisez des noms descriptifs pour les tests</li>
+            <li><strong>Assertions :</strong> Préférez AssertJ ou JUnit 5 assertions pour plus de lisibilité</li>
+            <li><strong>@Nested :</strong> Structurez les tests complexes avec des classes imbriquées</li>
+            <li><strong>@ParameterizedTest :</strong> Pour tester plusieurs jeux de données</li>
+            <li><strong>@BeforeEach/@AfterEach :</strong> Initialisation/nettoyage avant/après chaque test</li>
+            <li><strong>AssertAll :</strong> Groupez les assertions pour voir toutes les erreurs</li>
+          </ul>
+          
+          <h6 class="mt-3">Exemple de test paramétré :</h6>
+          <pre><code class="language-java">@ParameterizedTest
+@CsvSource({
+    "123-4567890, true",
+    "INVALID-ISBN, false",
+    "REF-123456, false"
+})
+void shouldValidateBookForLoan(String isbn, boolean expected) {
+    boolean isValid = loanService.isBookAvailableForLoan(isbn);
+    assertEquals(expected, isValid);
+}</code></pre>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-6">
+      <div class="card h-100">
+        <div class="card-header bg-info text-white">
+          <i class="bi bi-magic me-2"></i>Bonnes pratiques Mockito
+        </div>
+        <div class="card-body">
+          <ul>
+            <li><strong>@Mock vs @InjectMocks :</strong> Séparation claire des dépendances</li>
+            <li><strong>verify :</strong> Vérifiez les interactions avec les mocks</li>
+            <li><strong>ArgumentMatchers :</strong> any(), eq(), etc. pour une plus grande flexibilité</li>
+            <li><strong>BDDMockito :</strong> Given/When/Then pour une meilleure lisibilité</li>
+            <li><strong>@Spy :</strong> Pour mock partiel quand nécessaire</li>
+            <li><strong>MockitoExtension :</strong> Préférez cette extension à MockitoJUnitRunner</li>
+          </ul>
+          
+          <h6 class="mt-3">Exemple BDD style :</h6>
+          <pre><code class="language-java">@Test
+void borrowBook_bddStyle() {
+    // Given
+    Book book = new Book("123", "Clean Code", "Robert Martin", BookType.LOANABLE);
+    given(bookRepository.findByIsbn("123")).willReturn(Optional.of(book));
+    given(fineService.hasOutstandingFines(any())).willReturn(false);
+    
+    // When
+    LoanResult result = loanService.borrowBook("123", 1L);
+    
+    // Then
+    then(bookRepository).should().markAsBorrowed("123");
+    then(loanRepository).should().save(any(Loan.class));
+    assertThat(result.isSuccess()).isTrue();
+}</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
     <section id="spring-boot" class="mb-5">
       <h2 class="text-center mb-4">Spring Boot & Tests</h2>
@@ -741,55 +1278,390 @@ public void testUserCreation() {
       </div>
     </section>
 
-    <section id="bonnes-pratiques" class="mb-5">
-      <h2 class="text-center mb-4">Top 10 Bonnes Pratiques</h2>
+<section id="bonnes-pratiques" class="mb-5">
+  <h2 class="text-center mb-4">70 Bonnes Pratiques de Tests Spring Boot</h2>
+  
+  <div class="row mb-4">
+    <div class="col-md-12">
+      <ul class="nav nav-tabs justify-content-center" id="practicesTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="unit-tab" data-bs-toggle="tab" data-bs-target="#unit" type="button" role="tab">Tests Unitaires</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="integration-tab" data-bs-toggle="tab" data-bs-target="#integration" type="button" role="tab">Tests Intégration</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="api-tab" data-bs-toggle="tab" data-bs-target="#api" type="button" role="tab">API REST</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="security-tab" data-bs-toggle="tab" data-bs-target="#security" type="button" role="tab">Sécurité</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="ci-tab" data-bs-toggle="tab" data-bs-target="#ci" type="button" role="tab">CI/CD</button>
+        </li>
+      </ul>
       
-      <div class="row">
-        <div class="col-md-6">
-          <div class="card mb-4">
-            <div class="card-header">
-              <h5 class="mb-0">Tests unitaires</h5>
+      <div class="tab-content mt-4" id="practicesTabContent">
+        <!-- Tests Unitaires -->
+        <div class="tab-pane fade show active" id="unit" role="tabpanel">
+          <div class="card">
+            <div class="card-header tdd-card">
+              <h4><i class="bi bi-check-circle me-2"></i>15 Bonnes Pratiques - Tests Unitaires</h4>
             </div>
             <div class="card-body">
-              <ol>
-                <li>Testez un seul comportement par méthode</li>
-                <li>Nommez clairement les tests (should...When...)</li>
-                <li>Utilisez @Mock et @InjectMocks pour isoler les dépendances</li>
-                <li>Testez les cas standards, limites et exceptions</li>
-                <li>Évitez les tests trop abstraits ou trop mockés</li>
+              <ol class="practice-list">
+                <li>
+                  <strong>Un seul comportement par test</strong>
+                  <p>Chaque méthode de test doit vérifier un seul comportement du système</p>
+                </li>
+                <li>
+                  <strong>Nommage clair des tests</strong>
+                  <p>Utilisez la convention <code>should[ExpectedResult]When[State]</code></p>
+                </li>
+                <li>
+                  <strong>Utilisez @Mock et @InjectMocks</strong>
+                  <p>Pour isoler les dépendances et cibler la classe testée</p>
+                </li>
+                <li>
+                  <strong>Testez les cas limites</strong>
+                  <p>Valeurs nulles, vides, extrêmes et invalides</p>
+                </li>
+                <li>
+                  <strong>Évitez les appels externes</strong>
+                  <p>Pas de base de données, fichiers ou réseau dans les tests unitaires</p>
+                </li>
+                <li>
+                  <strong>Utilisez assertThrows</strong>
+                  <p>Pour tester les exceptions attendues</p>
+                </li>
+                <li>
+                  <strong>Vérifiez les interactions</strong>
+                  <p>Avec <code>verify()</code> et <code>ArgumentCaptor</code></p>
+                </li>
+                <li>
+                  <strong>Évitez les tests trop mockés</strong>
+                  <p>Ne pas sur-spécifier les comportements des mocks</p>
+                </li>
+                <li>
+                  <strong>Utilisez @BeforeEach</strong>
+                  <p>Pour initialiser les objets communs à plusieurs tests</p>
+                </li>
+                <li>
+                  <strong>Tests paramétrés</strong>
+                  <p>Avec <code>@ParameterizedTest</code> pour éviter la duplication</p>
+                </li>
+                <li>
+                  <strong>Suivez le modèle AAA</strong>
+                  <p>Arrange (préparation), Act (exécution), Assert (vérification)</p>
+                </li>
+                <li>
+                  <strong>Tests rapides</strong>
+                  <p>Un test unitaire doit s'exécuter en moins de 100ms</p>
+                </li>
+                <li>
+                  <strong>Évitez la logique dans les tests</strong>
+                  <p>Pas de boucles ou conditions complexes dans les tests</p>
+                </li>
+                <li>
+                  <strong>Utilisez des builders de test</strong>
+                  <p>Pour créer facilement des objets de test complexes</p>
+                </li>
+                <li>
+                  <strong>Commentaires pour les cas complexes</strong>
+                  <p>Expliquez le contexte des tests métier critiques</p>
+                </li>
               </ol>
             </div>
           </div>
         </div>
         
-        <div class="col-md-6">
-          <div class="card mb-4">
-            <div class="card-header">
-              <h5 class="mb-0">Tests d'intégration</h5>
+        <!-- Tests Intégration -->
+        <div class="tab-pane fade" id="integration" role="tabpanel">
+          <div class="card">
+            <div class="card-header spring-card">
+              <h4><i class="bi bi-arrow-repeat me-2"></i>15 Bonnes Pratiques - Tests Intégration</h4>
             </div>
             <div class="card-body">
-              <ol start="6">
-                <li>Utilisez @SpringBootTest avec un profil de test dédié</li>
-                <li>Préférez @DataJpaTest pour tester la couche repository</li>
-                <li>Utilisez TestContainers pour les bases de données</li>
-                <li>Protégez la base avec @Transactional pour rollback auto</li>
-                <li>Testez des scénarios réels (insertions, recherches, suppressions)</li>
+              <ol class="practice-list" start="16">
+                <li>
+                  <strong>Utilisez @SpringBootTest</strong>
+                  <p>Avec un profil de test dédié pour charger le contexte</p>
+                </li>
+                <li>
+                  <strong>TestContainers pour les bases</strong>
+                  <p>PostgreSQL, MySQL, MongoDB avec des containers Docker</p>
+                </li>
+                <li>
+                  <strong>@DataJpaTest pour les repositories</strong>
+                  <p>Testez la couche JPA avec une base configurée</p>
+                </li>
+                <li>
+                  <strong>@Transactional pour le rollback</strong>
+                  <p>Annule automatiquement les changements après chaque test</p>
+                </li>
+                <li>
+                  <strong>Base de données isolée</strong>
+                  <p>Une base par build ou utilisation de schémas temporaires</p>
+                </li>
+                <li>
+                  <strong>Testez des scénarios réels</strong>
+                  <p>Insertions, recherches, mises à jour, suppressions</p>
+                </li>
+                <li>
+                  <strong>Vérifiez les requêtes SQL</strong>
+                  <p>Testez les requêtes custom JPQL/Native</p>
+                </li>
+                <li>
+                  <strong>MockMvc pour les contrôleurs</strong>
+                  <p>Testez les endpoints sans démarrer le serveur</p>
+                </li>
+                <li>
+                  <strong>Simulez les données</strong>
+                  <p>Java Faker ou builders pour générer des données réalistes</p>
+                </li>
+                <li>
+                  <strong>@DirtiesContext</strong>
+                  <p>Quand vous modifiez le contexte Spring entre les tests</p>
+                </li>
+                <li>
+                  <strong>Testez les transactions</strong>
+                  <p>Vérifiez le comportement en cas de rollback</p>
+                </li>
+                <li>
+                  <strong>Vérifiez les logs</strong>
+                  <p>Activez la journalisation pour le débogage</p>
+                </li>
+                <li>
+                  <strong>Tests indépendants</strong>
+                  <p>Un test ne doit pas dépendre de l'exécution d'un autre</p>
+                </li>
+                <li>
+                  <strong>Évitez les mocks inutiles</strong>
+                  <p>Dans les tests d'intégration, utilisez les vrais composants</p>
+                </li>
+                <li>
+                  <strong>Testez les migrations</strong>
+                  <p>Flyway/Liquibase avec des schémas propres</p>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+        
+        <!-- API REST -->
+        <div class="tab-pane fade" id="api" role="tabpanel">
+          <div class="card">
+            <div class="card-header test-card">
+              <h4><i class="bi bi-file-earmark-text me-2"></i>15 Bonnes Pratiques - API REST</h4>
+            </div>
+            <div class="card-body">
+              <ol class="practice-list" start="31">
+                <li>
+                  <strong>Testez tous les status HTTP</strong>
+                  <p>200, 201, 204, 400, 401, 403, 404, 500</p>
+                </li>
+                <li>
+                  <strong>Vérifiez les headers</strong>
+                  <p>Content-Type, Location, Cache-Control, etc.</p>
+                </li>
+                <li>
+                  <strong>Testez les erreurs</strong>
+                  <p>Avec <code>@ExceptionHandler</code> personnalisés</p>
+                </li>
+                <li>
+                  <strong>Cas limites</strong>
+                  <p>ID inexistant, données invalides, conflits</p>
+                </li>
+                <li>
+                  <strong>Validez le JSON</strong>
+                  <p>Avec <code>jsonPath</code> ou <code>Jackson</code></p>
+                </li>
+                <li>
+                  <strong>MockMvc ou TestRestTemplate</strong>
+                  <p>Pour simuler les appels API</p>
+                </li>
+                <li>
+                  <strong>Validation de schéma</strong>
+                  <p>OpenAPI/Swagger pour vérifier les contrats</p>
+                </li>
+                <li>
+                  <strong>Documentez l'API</strong>
+                  <p>SpringDoc OpenAPI + Swagger UI</p>
+                </li>
+                <li>
+                  <strong>Versioning d'API</strong>
+                  <p>Testez la compatibilité descendante</p>
+                </li>
+                <li>
+                  <strong>Messages d'erreur</strong>
+                  <p>Ne pas exposer les messages internes en clair</p>
+                </li>
+                <li>
+                  <strong>Conventions REST</strong>
+                  <p>Verbes HTTP, pluralisation, nesting</p>
+                </li>
+                <li>
+                  <strong>Pagination</strong>
+                  <p>Testez les paramètres page, size, sort</p>
+                </li>
+                <li>
+                  <strong>Quotas et limites</strong>
+                  <p>Testez les restrictions de taux</p>
+                </li>
+                <li>
+                  <strong>Endpoints protégés</strong>
+                  <p>Avec et sans token JWT</p>
+                </li>
+                <li>
+                  <strong>Tests contractuels</strong>
+                  <p>Spring Cloud Contract pour les consommateurs</p>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Sécurité -->
+        <div class="tab-pane fade" id="security" role="tabpanel">
+          <div class="card">
+            <div class="card-header tdd-card">
+              <h4><i class="bi bi-shield-lock me-2"></i>15 Bonnes Pratiques - Sécurité</h4>
+            </div>
+            <div class="card-body">
+              <ol class="practice-list" start="46">
+                <li>
+                  <strong>@WithMockUser</strong>
+                  <p>Pour simuler des utilisateurs authentifiés</p>
+                </li>
+                <li>
+                  <strong>Testez les accès refusés</strong>
+                  <p>401 (non authentifié) et 403 (non autorisé)</p>
+                </li>
+                <li>
+                  <strong>Différents rôles</strong>
+                  <p>Testez avec ADMIN, USER, GUEST, etc.</p>
+                </li>
+                <li>
+                  <strong>Routes publiques</strong>
+                  <p>Vérifiez les endpoints accessibles sans authentification</p>
+                </li>
+                <li>
+                  <strong>Configuration CSRF</strong>
+                  <p>Testez sa désactivation ou son fonctionnement</p>
+                </li>
+                <li>
+                  <strong>JWT/OAuth2</strong>
+                  <p>Testez le flux complet d'authentification</p>
+                </li>
+                <li>
+                  <strong>Restrictions de champ</strong>
+                  <p>Un utilisateur ne peut pas modifier les données d'un autre</p>
+                </li>
+                <li>
+                  <strong>Tests d'échec</strong>
+                  <p>Tokens invalides, expirés, revokés</p>
+                </li>
+                <li>
+                  <strong>Journalisation des accès</strong>
+                  <p>Vérifiez les logs de sécurité</p>
+                </li>
+                <li>
+                  <strong>Tests de pénétration</strong>
+                  <p>Scanners automatiques (OWASP ZAP, etc.)</p>
+                </li>
+                <li>
+                  <strong>@WithUserDetails</strong>
+                  <p>Pour simuler des utilisateurs existants en base</p>
+                </li>
+                <li>
+                  <strong>Données sensibles</strong>
+                  <p>Ne pas logger les mots de passe/tokens</p>
+                </li>
+                <li>
+                  <strong>Headers de sécurité</strong>
+                  <p>CSP, XSS Protection, HSTS, etc.</p>
+                </li>
+                <li>
+                  <strong>Brute force</strong>
+                  <p>Testez le verrouillage après X tentatives</p>
+                </li>
+                <li>
+                  <strong>Configuration CORS</strong>
+                  <p>Vérifiez les domaines autorisés</p>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+        
+        <!-- CI/CD -->
+        <div class="tab-pane fade" id="ci" role="tabpanel">
+          <div class="card">
+            <div class="card-header spring-card">
+              <h4><i class="bi bi-gear me-2"></i>10 Bonnes Pratiques - CI/CD</h4>
+            </div>
+            <div class="card-body">
+              <ol class="practice-list" start="61">
+                <li>
+                  <strong>Lancez tous les tests à chaque commit</strong>
+                  <p>Dans votre pipeline CI</p>
+                </li>
+                <li>
+                  <strong>mvn verify ou gradle check</strong>
+                  <p>Incluez ces commandes dans votre CI</p>
+                </div>
+                </li>
+                <li>
+                  <strong>Échec du pipeline si tests KO</strong>
+                  <p>Ne pas déployer si des tests échouent</p>
+                </li>
+                <li>
+                  <strong>JaCoCo et SonarQube</strong>
+                  <p>Intégrez les rapports de couverture</p>
+                </li>
+                <li>
+                  <strong>Environnements multiples</strong>
+                  <p>Testez sur différentes versions de Java</p>
+                </li>
+                <li>
+                  <strong>Séparez les tests lents</strong>
+                  <p>Avec <code>@Tag("slow")</code> pour les exécuter moins souvent</p>
+                </li>
+                <li>
+                  <strong>Optimisez les performances</strong>
+                  <p>Cache Maven/Gradle, parallélisation</p>
+                </li>
+                <li>
+                  <strong>Notifications</strong>
+                  <p>Slack/Email en cas d'échec</p>
+                </li>
+                <li>
+                  <strong>Artifacts de test</strong>
+                  <p>Stockez les rapports HTML/PDF</p>
+                </li>
+                <li>
+                  <strong>Docker pour les tests</strong>
+                  <p>Utilisez des containers pour les dépendances</p>
+                </li>
               </ol>
             </div>
           </div>
         </div>
       </div>
-      
-      <div class="card">
-        <div class="card-header">
-          <h5 class="mb-0">Couverture de code</h5>
-        </div>
-        <div class="card-body">
-          <div class="row">
-            <div class="col-md-6">
-              <h6>Configuration JaCoCo</h6>
-              <div class="code-block">
-                <pre>&lt;plugin&gt;
+    </div>
+  </div>
+  
+  <!-- Couverture de code -->
+  <div class="card mt-4">
+    <div class="card-header test-card">
+      <h4><i class="bi bi-graph-up me-2"></i>Couverture de code avec JaCoCo</h4>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6">
+          <h5>Configuration Maven</h5>
+          <div class="code-block">
+            <pre>&lt;plugin&gt;
   &lt;groupId&gt;org.jacoco&lt;/groupId&gt;
   &lt;artifactId&gt;jacoco-maven-plugin&lt;/artifactId&gt;
   &lt;version&gt;0.8.11&lt;/version&gt;
@@ -803,23 +1675,50 @@ public void testUserCreation() {
       &lt;goals&gt;&lt;goal&gt;report&lt;/goal&gt;&lt;/goals&gt;
     &lt;/execution&gt;
   &lt;/executions&gt;
+  &lt;configuration&gt;
+    &lt;excludes&gt;
+      &lt;exclude&gt;**/model/*&lt;/exclude&gt;
+      &lt;exclude&gt;**/config/*&lt;/exclude&gt;
+    &lt;/excludes&gt;
+  &lt;/configuration&gt;
 &lt;/plugin&gt;</pre>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <h5>Objectifs de qualité</h5>
+          <div class="quality-metrics">
+            <div class="metric">
+              <div class="metric-label">Instructions</div>
+              <div class="progress">
+                <div class="progress-bar bg-success" style="width: 90%">90%</div>
               </div>
             </div>
-            <div class="col-md-6">
-              <h6>Objectifs</h6>
-              <ul>
-                <li>Visez ≥ 90% de couverture des instructions</li>
-                <li>Couverture ≥ 80% des branches</li>
-                <li>Excluez les DTO, configurations et POJO simples</li>
-                <li>Intégrez dans votre pipeline CI/CD</li>
-                <li>100% ne garantit pas zéro bug - qualité avant quantité</li>
-              </ul>
+            <div class="metric">
+              <div class="metric-label">Branches</div>
+              <div class="progress">
+                <div class="progress-bar bg-info" style="width: 80%">80%</div>
+              </div>
             </div>
+            <div class="metric">
+              <div class="metric-label">Complexité</div>
+              <div class="progress">
+                <div class="progress-bar bg-warning" style="width: 70%">70%</div>
+              </div>
+            </div>
+          </div>
+          <div class="alert alert-info mt-3">
+            <ul>
+              <li>Exclure les DTO, configurations et classes simples</li>
+              <li>Prioriser la couverture des classes critiques</li>
+              <li>100% ne garantit pas zéro bug - qualité avant quantité</li>
+              <li>Intégrer avec SonarQube pour plus d'analyses</li>
+            </ul>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
 
     <section id="cas-pratiques" class="mb-5">
       <h2 class="text-center mb-4">Cas pratiques</h2>
