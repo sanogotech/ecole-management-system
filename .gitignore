@@ -1,0 +1,55 @@
+# Java class files
+*.class
+
+# Maven target folder
+/target/
+
+# Logs
+*.log
+
+# Eclipse
+.project
+.classpath
+.settings/
+bin/
+
+# IntelliJ
+*.iml
+.idea/
+out/
+
+# VSCode
+.vscode/
+
+# OS generated
+.DS_Store
+Thumbs.db
+
+# JaCoCo coverage reports
+jacoco.exec
+*.ec
+
+# Temporary files
+*.swp
+*.bak
+*.tmp
+
+# Spring Boot devtools
+.spring-boot-devtools.properties
+
+# Selenium screenshots / cache (if any)
+selenium-screenshots/
+chromedriver.log
+
+# Docker
+*.jar
+docker-compose.override.yml
+.env
+
+# Test reports
+/target/surefire-reports/
+/target/jacoco.exec
+/target/site/
+
+# Environment config files (optional)
+application-local.properties

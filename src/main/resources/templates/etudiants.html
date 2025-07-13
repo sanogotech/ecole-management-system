@@ -1,0 +1,12 @@
+<html><body>
+<h2>Liste des étudiants</h2>
+<a href='/etudiants/nouveau'>Ajouter</a>
+<table border='1'>
+<tr><th>ID</th><th>Nom</th><th>Prénom</th><th>Action</th></tr>
+<tr th:each='e : ${etudiants}'>
+<td th:text='${e.id}'></td>
+<td th:text='${e.nom}'></td>
+<td th:text='${e.prenom}'></td>
+<td><form th:action='@{/etudiants/supprimer/{id}(id=${e.id})}' method='post'><button type='submit'>Supprimer</button></form></td>
+</tr></table>
+</body></html>

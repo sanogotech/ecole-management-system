@@ -1,0 +1,8 @@
+<html><body>
+<h2>Ajouter un étudiant</h2>
+<form th:action='@{/etudiants}' th:object='${etudiant}' method='post'>
+Nom: <input th:field='*{nom}' /><br/>
+Prénom: <input th:field='*{prenom}' /><br/>
+<button type='submit'>Enregistrer</button>
+</form>
+</body></html>
