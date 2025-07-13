@@ -1,27 +1,88 @@
-# Ecole Management System
+# 📚 Ecole Management System
 
-Ce projet est un exemple complet d'application Spring Boot pour la gestion d'étudiants, incluant :
+Système complet de gestion d'étudiants avec :
 
-- Spring Boot 3.4
-- Thymeleaf pour l'interface HTML
-- JPA/Hibernate avec H2
-- Tests unitaires (JUnit, Mockito)
-- Tests Selenium
-- Structure MVC claire
+- ✅ Spring Boot 3.4 (Java 17)
+- ✅ Thymeleaf pour l'interface utilisateur
+- ✅ H2 database en mémoire
+- ✅ JUnit 5 + Mockito + Selenium
+- ✅ JaCoCo pour couverture de code (objectif 95%)
+- ✅ Docker + Docker Compose
 
-## Lancer l'application
+---
+
+## 🚀 Démarrage
+
+### 📦 Exécution classique
 
 ```bash
-mvn spring-boot:run
+mvn clean spring-boot:run
+````
+
+### 🐳 Exécution via Docker
+
+```bash
+docker-compose up --build
 ```
 
-## Accéder à l'interface
+---
 
-- Accueil : http://localhost:8080
-- Liste des étudiants : http://localhost:8080/etudiants
+## ✅ Accès
 
-## Tester
+* Accueil : [http://localhost:8080](http://localhost:8080)
+* Liste étudiants : [http://localhost:8080/etudiants](http://localhost:8080/etudiants)
+
+---
+
+## 🧪 Lancer les tests
 
 ```bash
 mvn test
 ```
+
+---
+
+## 📊 Générer le rapport JaCoCo
+
+```bash
+mvn clean verify
+# Rapport disponible dans : target/site/jacoco/index.html
+```
+
+---
+
+## 🧪 Tester avec Selenium
+
+> ChromeDriver requis : [https://chromedriver.chromium.org/](https://chromedriver.chromium.org/)
+
+```bash
+mvn test -Dtest=SeleniumUITest
+```
+
+---
+
+## 📁 Structure recommandée
+
+```
+src/
+ └── main/
+     ├── java/com/ecole/
+     └── resources/templates/
+ └── test/
+     ├── java/com/ecole/service/
+     └── java/com/ecole/selenium/
+```
+
+---
+
+## 🛠 Améliorations futures
+
+* Authentification (Spring Security)
+* PostgreSQL (via Docker)
+* Pagination et tri
+* API REST complète
+
+```
+
+
+
