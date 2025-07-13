@@ -458,6 +458,248 @@
 	
 
 	<img src="images/testsniveaux.gif" alt="Logo de l'entreprise" >
+	
+	<section id="system-testing" class="mb-5">
+  <h2 class="text-center mb-4">Meilleures Pratiques pour Tester le Fonctionnement du Système</h2>
+  
+  <div class="card mb-4">
+    <div class="card-header bg-primary text-white">
+      <i class="bi bi-check-circle me-2"></i>Introduction
+    </div>
+    <div class="card-body">
+      <p>Le test de fonctionnalité du système est une étape cruciale qui garantit qu'une application :</p>
+      <ul>
+        <li>Fonctionne comme prévu</li>
+        <li>Répond aux exigences utilisateurs</li>
+        <li>Est fiable en conditions réelles</li>
+      </ul>
+      <p>Voici les 6 piliers essentiels d'une stratégie de test complète :</p>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Tests Unitaires -->
+    <div class="col-md-4 mb-4">
+      <div class="card h-100">
+        <div class="card-header bg-success text-white">
+          <i class="bi bi-puzzle me-2"></i>1. Tests Unitaires
+        </div>
+        <div class="card-body">
+          <h6>Objectif :</h6>
+          <p>Vérifier le bon fonctionnement des composants isolés (méthodes, classes).</p>
+          
+          <h6 class="mt-3">Best Practices :</h6>
+          <ul>
+            <li>Utiliser JUnit/TestNG + Mockito</li>
+            <li>Un test = un comportement</li>
+            <li>Nommage clair (should...When...)</li>
+            <li>Tests indépendants et rapides</li>
+          </ul>
+          
+          <div class="code-example mt-3">
+            <pre><code class="language-java">@Test
+void shouldReturnDiscountWhenPremiumCustomer() {
+    Customer premium = new Customer(Status.PREMIUM);
+    assertEquals(0.15, premium.getDiscount());
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Tests d'Intégration -->
+    <div class="col-md-4 mb-4">
+      <div class="card h-100">
+        <div class="card-header bg-warning text-dark">
+          <i class="bi bi-plug me-2"></i>2. Tests d'Intégration
+        </div>
+        <div class="card-body">
+          <h6>Objectif :</h6>
+          <p>Vérifier l'interaction entre composants (bases de données, APIs externes).</p>
+          
+          <h6 class="mt-3">Best Practices :</h6>
+          <ul>
+            <li>Utiliser @SpringBootTest (Spring)</li>
+            <li>TestContainers pour les bases de données</li>
+            <li>WireMock pour les APIs externes</li>
+            <li>Vérifier les transactions</li>
+          </ul>
+          
+          <div class="code-example mt-3">
+            <pre><code class="language-java">@Test
+void shouldSaveOrderInDatabase() {
+    Order order = new Order(123L, 3);
+    orderRepository.save(order);
+    
+    assertTrue(orderRepository.existsById(123L));
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Tests Système -->
+    <div class="col-md-4 mb-4">
+      <div class="card h-100">
+        <div class="card-header bg-info text-white">
+          <i class="bi bi-gear me-2"></i>3. Tests Système
+        </div>
+        <div class="card-body">
+          <h6>Objectif :</h6>
+          <p>Valider le système complet selon les spécifications.</p>
+          
+          <h6 class="mt-3">Best Practices :</h6>
+          <ul>
+            <li>Scénarios end-to-end</li>
+            <li>Données de test réalistes</li>
+            <li>Selenium/Cypress pour le front</li>
+            <li>Postman/Newman pour les APIs</li>
+          </ul>
+          
+          <div class="code-example mt-3">
+            <pre><code class="language-gherkin">Scenario: Checkout complet
+  Given Un utilisateur connecté
+  When Il ajoute 2 produits au panier
+  And Il complète le paiement
+  Then La commande est créée
+  And Un email de confirmation est envoyé</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="row">
+    <!-- Tests de Charge -->
+    <div class="col-md-4 mb-4">
+      <div class="card h-100">
+        <div class="card-header bg-danger text-white">
+          <i class="bi bi-speedometer2 me-2"></i>4. Tests de Charge
+        </div>
+        <div class="card-body">
+          <h6>Objectif :</h6>
+          <p>Évaluer les performances sous charge.</p>
+          
+          <h6 class="mt-3">Best Practices :</h6>
+          <ul>
+            <li>JMeter/Gatling/k6</li>
+            <li>Simuler la montée en charge progressive</li>
+            <li>Monitorer : CPU, mémoire, temps de réponse</li>
+            <li>Tester en environnement proche de la prod</li>
+          </ul>
+          
+          <div class="code-example mt-3">
+            <pre><code class="language-kotlin">// Exemple Gatling
+setUp(
+    scenario("Checkout Load Test")
+        .exec(http("AddToCart").post("/cart"))
+        .inject(rampUsers(1000).during(60))
+).protocols(http.baseUrl("https://api.myshop.com"))</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Tests d'Erreur -->
+    <div class="col-md-4 mb-4">
+      <div class="card h-100">
+        <div class="card-header bg-secondary text-white">
+          <i class="bi bi-exclamation-octagon me-2"></i>5. Tests d'Erreur
+        </div>
+        <div class="card-body">
+          <h6>Objectif :</h6>
+          <p>Vérifier la robustesse face aux erreurs.</p>
+          
+          <h6 class="mt-3">Best Practices :</h6>
+          <ul>
+            <li>Chaos Engineering (Chaos Monkey)</li>
+            <li>Tester les cas limites</li>
+            <li>Simuler pannes réseaux/BDD</li>
+            <li>Vérifier les messages d'erreur</li>
+          </ul>
+          
+          <div class="code-example mt-3">
+            <pre><code class="language-java">@Test
+void shouldThrowExceptionWhenInventoryEmpty() {
+    when(inventoryService.checkStock(any())).thenReturn(0);
+    
+    assertThrows(InventoryException.class, () -> {
+        orderService.placeOrder(testOrder);
+    });
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Automatisation -->
+    <div class="col-md-4 mb-4">
+      <div class="card h-100">
+        <div class="card-header bg-dark text-white">
+          <i class="bi bi-robot me-2"></i>6. Automatisation
+        </div>
+        <div class="card-body">
+          <h6>Objectif :</h6>
+          <p>Rendre les tests reproductibles et efficaces.</p>
+          
+          <h6 class="mt-3">Best Practices :</h6>
+          <ul>
+            <li>Intégration continue (Jenkins/GitHub Actions)</li>
+            <li>Pipeline de test (unit → intégration → E2E)</li>
+            <li>Reporting (Allure Report)</li>
+            <li>Parallel execution</li>
+          </ul>
+          
+          <div class="code-example mt-3">
+            <pre><code class="language-yaml"># GitHub Actions
+- name: Run Tests
+  run: |
+    mvn test
+    npm run e2e
+    gatling:test</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="card mt-4">
+    <div class="card-header bg-info text-white">
+      <i class="bi bi-diagram-3 me-2"></i>Stratégie de Test en Couches
+    </div>
+    <div class="card-body">
+      <div class="text-center mb-3">
+        <img src="images/test-pyramid.png" alt="Pyramide des tests" class="img-fluid" style="max-height: 200px;">
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <h6>Tests Unitaires (70%)</h6>
+          <ul>
+            <li>Rapides (ms)</li>
+            <li>Isolés</li>
+            <li>Couvrent la logique métier</li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <h6>Tests Intégration (20%)</h6>
+          <ul>
+            <li>Modérément rapides (s)</li>
+            <li>Vérifient les interactions</li>
+            <li>Bases de données, APIs</li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <h6>Tests E2E (10%)</h6>
+          <ul>
+            <li>Lents (min)</li>
+            <li>Scénarios complets</li>
+            <li>UI/Workflows</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 
 <section id="tdd" class="mb-5">
